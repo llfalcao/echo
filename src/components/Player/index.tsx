@@ -2,8 +2,9 @@
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 import { useEffect } from "react";
 
-export default function Footer() {
-  const { src, playing, setPlaylist, onPause, onPlay } = useAudioPlayer();
+export default function Player() {
+  const { audio, src, playing, setPlaylist, onPlay, onPause, onNext } =
+    useAudioPlayer();
 
   useEffect(() => {
     fetch("/api/playlists/1")
@@ -13,6 +14,7 @@ export default function Footer() {
 
   return (
     <div>
+      <audio id="audio" ref={audio} controls />
       {playing ? (
         <button onClick={onPause}>Pause</button>
       ) : (
@@ -20,6 +22,7 @@ export default function Footer() {
           Play
         </button>
       )}
+      <button onClick={onNext}>Next</button>
     </div>
   );
 }
