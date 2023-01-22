@@ -3,8 +3,16 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 import { useEffect } from "react";
 
 export default function Player() {
-  const { audio, src, playing, setPlaylist, onPlay, onPause, onNext } =
-    useAudioPlayer();
+  const {
+    audio,
+    src,
+    playing,
+    setPlaylist,
+    onPlay,
+    onPause,
+    onPrevious,
+    onNext,
+  } = useAudioPlayer();
 
   useEffect(() => {
     fetch("/api/playlists/1")
@@ -22,6 +30,7 @@ export default function Player() {
           Play
         </button>
       )}
+      <button onClick={onPrevious}>Previous</button>
       <button onClick={onNext}>Next</button>
     </div>
   );

@@ -19,6 +19,12 @@ const useAudioPlayer = () => {
     audio.current?.pause();
   };
 
+  const onPrevious = () => {
+    if (playlist?.tracks[current - 1]) {
+      setCurrent(current - 1);
+    }
+  };
+
   const onNext = () => {
     if (playlist?.tracks[current + 1]) {
       setCurrent(current + 1);
@@ -38,7 +44,7 @@ const useAudioPlayer = () => {
       audio.current?.removeEventListener("pause", onPause);
       audio.current?.removeEventListener("ended", onNext);
     };
-  }, [audio, playlist]);
+  }, [audio, src, playlist]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && audio.current) {
@@ -66,6 +72,7 @@ const useAudioPlayer = () => {
     setSrc,
     onPlay,
     onPause,
+    onPrevious,
     onNext,
     setPlaylist,
   };
