@@ -1,20 +1,19 @@
-import Head from "next/head";
 import { Inter } from "@next/font/google";
-
+import Head from "next/head";
 const inter = Inter({ subsets: ["latin"] });
 
-export default function LandingPage() {
+const LandingPage = () => {
   return (
     <>
       <Head>
-        <title>re:tune</title>
+        <title>re:tune - Player</title>
         <meta name="description" content="re:tune web player" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main style={inter.style}>
-        <h1>re:tune</h1>
-      </main>
+      <h1 className={inter.className}>Player</h1>
     </>
   );
-}
+};
+
+export default LandingPage;
