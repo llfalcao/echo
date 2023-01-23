@@ -28,7 +28,10 @@ const useAudioPlayer = () => {
   const onNext = () => {
     if (playlist?.tracks[current + 1]) {
       setCurrent(current + 1);
-      setPlaying(true);
+
+      if (playing) {
+        setPlaying(true);
+      }
     }
   };
 
