@@ -8,6 +8,7 @@ const useAudioPlayer = () => {
   const [playing, setPlaying] = useState<boolean>(false);
   const [playlist, setPlaylist] = useState<Playlist>();
   const [current, setCurrent] = useState<number>(0);
+  const [repeat, setRepeat] = useState<"none" | "song" | "playlist">("none");
 
   const onPlay = () => {
     setPlaying(true);
@@ -25,14 +26,40 @@ const useAudioPlayer = () => {
     }
   };
 
-  const onNext = () => {
-    if (playlist?.tracks[current + 1]) {
-      setCurrent(current + 1);
+  const onNext = (event?: string) => {
+    if (!playlist?.tracks) return;
+    const hasNext = playlist.tracks[current + 1] !== undefined;
+    const isLast = playlist.tracks.length - 1 === current;
 
-      if (playing) {
-        setPlaying(true);
-      }
+    if (repeat === "song" && audio.current) {
+      audio.current.currentTime = 0;
+    } else if (repeat === "playlist" && isLast) {
+      setCurrent(0);
+    } else if (hasNext) {
+      setCurrent(current + 1);
     }
+
+    if (hasNext && event === "ended") {
+      setPlaying(true);
+    }
+  };
+
+  const onRepeat = () => {
+    if (audio.current) {
+      if (repeat === "none") {
+        setRepeat("song");
+        audio.current.loop = true;
+        return;
+      }
+
+      if (repeat === "song") {
+        audio.current.loop = false;
+        return setRepeat("playlist");
+      }
+
+      audio.current.loop = false;
+    }
+    setRepeat("none");
   };
 
   useEffect(() => {
@@ -40,12 +67,12 @@ const useAudioPlayer = () => {
     navigator.mediaSession.setActionHandler("pause", onPause);
     audio.current?.addEventListener("play", onPlay);
     audio.current?.addEventListener("pause", onPause);
-    audio.current?.addEventListener("ended", onNext);
+    audio.current?.addEventListener("ended", () => onNext("ended"));
 
     return () => {
       audio.current?.removeEventListener("play", onPlay);
       audio.current?.removeEventListener("pause", onPause);
-      audio.current?.removeEventListener("ended", onNext);
+      audio.current?.removeEventListener("ended", () => onNext("ended"));
     };
   }, [audio, src, playlist]);
 
@@ -72,12 +99,12 @@ const useAudioPlayer = () => {
     audio,
     playing,
     src,
-    setSrc,
+    setPlaylist,
     onPlay,
     onPause,
     onPrevious,
     onNext,
-    setPlaylist,
+    onRepeat,
   };
 };
 

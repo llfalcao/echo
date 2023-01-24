@@ -12,6 +12,7 @@ export default function Player() {
     onPause,
     onPrevious,
     onNext,
+    onRepeat,
   } = useAudioPlayer();
 
   useEffect(() => {
@@ -31,7 +32,8 @@ export default function Player() {
         </button>
       )}
       <button onClick={onPrevious}>Previous</button>
-      <button onClick={onNext}>Next</button>
+      <button onClick={() => onNext()}>Next</button>
+      <button onClick={onRepeat}>Repeat</button>
     </div>
   );
 }
