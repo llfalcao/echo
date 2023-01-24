@@ -13,6 +13,7 @@ export default function Player() {
     onPrevious,
     onNext,
     onRepeat,
+    onShuffle,
   } = useAudioPlayer();
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function Player() {
       <button onClick={onPrevious}>Previous</button>
       <button onClick={() => onNext()}>Next</button>
       <button onClick={onRepeat}>Repeat</button>
+      <button onClick={onShuffle}>Shuffle</button>
     </div>
   );
 }

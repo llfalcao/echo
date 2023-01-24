@@ -9,6 +9,8 @@ const useAudioPlayer = () => {
   const [playlist, setPlaylist] = useState<Playlist>();
   const [current, setCurrent] = useState<number>(0);
   const [repeat, setRepeat] = useState<"none" | "song" | "playlist">("none");
+  const [shuffle, setShuffle] = useState<boolean>(false);
+  const [originalPlaylist, setOriginalPlaylist] = useState<Playlist>();
 
   const onPlay = () => {
     setPlaying(true);
@@ -62,6 +64,37 @@ const useAudioPlayer = () => {
     setRepeat("none");
   };
 
+  const onShuffle = () => {
+    if (!playlist?.tracks || !originalPlaylist?.tracks) return;
+
+    if (!shuffle) {
+      const previousTracks = playlist.tracks.slice(0, current + 1);
+      let target = playlist.tracks.slice(current + 1);
+
+      for (let i = 0; i < target.length; i++) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [target[i], target[j]] = [target[j], target[i]];
+      }
+
+      const shuffled = [...previousTracks, ...target];
+      setPlaylist({ ...playlist, tracks: shuffled });
+      setShuffle(true);
+    } else {
+      const currentTrack = originalPlaylist.tracks.indexOf(
+        playlist.tracks[current],
+      );
+
+      const previousTracks = originalPlaylist.tracks.slice(0, currentTrack + 1);
+      const unshuffled = [
+        ...previousTracks,
+        ...originalPlaylist.tracks.slice(currentTrack + 1),
+      ];
+
+      setPlaylist({ ...playlist, tracks: unshuffled });
+      setShuffle(false);
+    }
+  };
+
   useEffect(() => {
     navigator.mediaSession.setActionHandler("play", onPlay);
     navigator.mediaSession.setActionHandler("pause", onPause);
@@ -90,7 +123,11 @@ const useAudioPlayer = () => {
   useEffect(() => {
     if (!playlist) return;
 
-    fetch(`/api/audio/${playlist?.tracks[current]}`)
+    if (playlist.id !== originalPlaylist?.id) {
+      setOriginalPlaylist(playlist);
+    }
+
+    fetch(`/api/audio/${playlist.tracks[current]}`)
       .then((res) => res.json())
       .then((data) => setSrc(data.src));
   }, [playlist?.id, current]);
@@ -99,12 +136,15 @@ const useAudioPlayer = () => {
     audio,
     playing,
     src,
+    repeat,
+    shuffle,
     setPlaylist,
     onPlay,
     onPause,
     onPrevious,
     onNext,
     onRepeat,
+    onShuffle,
   };
 };
 
