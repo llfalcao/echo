@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Playlist } from "@/typings/AudioPlayer";
 import { useEffect, useRef, useState } from "react";
+import { useBetween } from "use-between";
 
 const useAudioPlayer = () => {
   const audio = useRef<HTMLAudioElement | null>(null);
@@ -11,6 +12,9 @@ const useAudioPlayer = () => {
   const [repeat, setRepeat] = useState<"none" | "song" | "playlist">("none");
   const [shuffle, setShuffle] = useState<boolean>(false);
   const [originalPlaylist, setOriginalPlaylist] = useState<Playlist>();
+  const [currentTime, setCurrentTime] = useState<number | undefined>(0);
+  const [duration, setDuration] = useState<number | undefined>(0);
+  const [clickedTime, setClickedTime] = useState<number | undefined>();
 
   const onPlay = () => {
     setPlaying(true);
@@ -95,19 +99,34 @@ const useAudioPlayer = () => {
     }
   };
 
+  const onLoadedData = () => {
+    console.log("# audio", audio.current?.currentTime, audio.current?.duration);
+    setCurrentTime(audio.current?.currentTime);
+    setDuration(audio.current?.duration);
+  };
+
+  const onTimeUpdate = () => setCurrentTime(audio.current?.currentTime);
+
   useEffect(() => {
+    if (audio.current && clickedTime) {
+      audio.current.currentTime = clickedTime;
+    }
     navigator.mediaSession.setActionHandler("play", onPlay);
     navigator.mediaSession.setActionHandler("pause", onPause);
     audio.current?.addEventListener("play", onPlay);
     audio.current?.addEventListener("pause", onPause);
     audio.current?.addEventListener("ended", () => onNext("ended"));
+    audio.current?.addEventListener("timeupdate", onTimeUpdate);
+    audio.current?.addEventListener("loadeddata", onLoadedData);
 
     return () => {
       audio.current?.removeEventListener("play", onPlay);
       audio.current?.removeEventListener("pause", onPause);
       audio.current?.removeEventListener("ended", () => onNext("ended"));
+      audio.current?.removeEventListener("timeupdate", onTimeUpdate);
+      audio.current?.removeEventListener("loadeddata", onLoadedData);
     };
-  }, [audio, src, playlist]);
+  }, [audio, src, playlist, clickedTime]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && audio.current) {
@@ -138,6 +157,10 @@ const useAudioPlayer = () => {
     src,
     repeat,
     shuffle,
+    currentTime,
+    duration,
+    clickedTime,
+    setClickedTime,
     setPlaylist,
     onPlay,
     onPause,
@@ -148,4 +171,5 @@ const useAudioPlayer = () => {
   };
 };
 
-export default useAudioPlayer;
+const useSharedAudio = () => useBetween(useAudioPlayer);
+export default useSharedAudio;

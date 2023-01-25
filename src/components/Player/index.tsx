@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 import { useEffect } from "react";
+import ProgressBar from "./ProgressBar";
 
 export default function Player() {
   const {
@@ -25,17 +26,20 @@ export default function Player() {
   return (
     <div>
       <audio id="audio" ref={audio} controls />
-      {playing ? (
-        <button onClick={onPause}>Pause</button>
-      ) : (
-        <button onClick={onPlay} disabled={src.length === 0}>
-          Play
-        </button>
-      )}
-      <button onClick={onPrevious}>Previous</button>
-      <button onClick={() => onNext()}>Next</button>
-      <button onClick={onRepeat}>Repeat</button>
-      <button onClick={onShuffle}>Shuffle</button>
+      <div>
+        {playing ? (
+          <button onClick={onPause}>Pause</button>
+        ) : (
+          <button onClick={onPlay} disabled={src.length === 0}>
+            Play
+          </button>
+        )}
+        <button onClick={onPrevious}>Previous</button>
+        <button onClick={() => onNext()}>Next</button>
+        <button onClick={onRepeat}>Repeat</button>
+        <button onClick={onShuffle}>Shuffle</button>
+      </div>
+      <ProgressBar />
     </div>
   );
 }
