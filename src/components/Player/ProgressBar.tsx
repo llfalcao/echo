@@ -1,20 +1,19 @@
 import useAudioPlayer from "@/hooks/useAudioPlayer";
-import { MouseEvent, useRef } from "react";
+import { MouseEvent, useRef, useState } from "react";
 
 const ProgressBar = () => {
   const {
     audio,
-    playing,
-    onPlay,
-    onPause,
     currentTime = 0,
     duration = 0,
     setClickedTime,
   } = useAudioPlayer();
+
   const progress = useRef<HTMLProgressElement>(null);
   const thumb = useRef<HTMLButtonElement>(null);
   const percentage =
     currentTime && duration > 0 ? (currentTime / duration) * 100 : 0;
+  const [thumbPosition, setThumbPosition] = useState<number | undefined>();
 
   const getClickedTime = (event: any) => {
     if (progress.current && duration) {
@@ -27,20 +26,24 @@ const ProgressBar = () => {
 
       return timePerPixel * barClickPosition;
     }
+
+    return 0;
   };
 
   const onHold = (event: MouseEvent) => {
     if (!audio.current) return;
-    playing && onPause();
-    setClickedTime(getClickedTime(event));
+    let clickedTime = getClickedTime(event);
 
     const onMove = (event: any) => {
-      setClickedTime(getClickedTime(event));
+      clickedTime = getClickedTime(event);
+      const percentage = (clickedTime / duration) * 100;
+      setThumbPosition(percentage < 100 ? percentage : 100);
     };
 
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mouseup", () => {
-      playing && onPlay();
+      setThumbPosition(undefined);
+      setClickedTime(clickedTime);
       document.removeEventListener("mousemove", onMove);
     });
   };
@@ -52,6 +55,7 @@ const ProgressBar = () => {
         position: "relative",
         display: "flex",
         margin: "10px",
+        padding: "10px 0",
         width: "max-content",
         height: "12px",
         alignItems: "center",
@@ -70,7 +74,7 @@ const ProgressBar = () => {
           background: "none",
           border: 0,
           position: "absolute",
-          left: `${percentage}%`,
+          left: `${thumbPosition ?? percentage}%`,
           top: "50%",
           transform: "translate3d(-6px,-42%,0)",
           outline: "none",

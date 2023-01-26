@@ -114,6 +114,7 @@ progress {
   background-color: gray;
   color: #341763;
   transition: height 0.15s;
+  overflow: hidden;
 }
 progress::-webkit-progress-bar {
   border: 0;
@@ -122,6 +123,7 @@ progress::-webkit-progress-bar {
   border-radius: 20px;
   background-color: gray;
   transition: height 0.15s;
+  overflow: hidden;
 }
 progress::-moz-progress-bar {
   border: 0;
@@ -135,12 +137,10 @@ progress::-webkit-progress-value {
   border: 0;
   width: 500px;
   height: 6px;
-  border-radius: 20px;
   background-color: #341763;
   transition: height 0.15s;
 }
-
-.bar:hover progress {
+/* .bar:hover progress {
   height: 12px;
 }
 .bar:hover progress::-webkit-progress-bar {
@@ -151,4 +151,4 @@ progress::-webkit-progress-value {
 }
 .bar:hover progress::-webkit-progress-value {
   height: 12px;
-}
+} */

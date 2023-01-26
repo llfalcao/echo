@@ -3,7 +3,7 @@ import { Playlist } from "@/typings/AudioPlayer";
 import { useEffect, useRef, useState } from "react";
 import { useBetween } from "use-between";
 
-const useAudioPlayer = () => {
+const AudioPlayer = () => {
   const audio = useRef<HTMLAudioElement | null>(null);
   const [src, setSrc] = useState<string>("");
   const [playing, setPlaying] = useState<boolean>(false);
@@ -100,7 +100,6 @@ const useAudioPlayer = () => {
   };
 
   const onLoadedData = () => {
-    console.log("# audio", audio.current?.currentTime, audio.current?.duration);
     setCurrentTime(audio.current?.currentTime);
     setDuration(audio.current?.duration);
   };
@@ -171,5 +170,5 @@ const useAudioPlayer = () => {
   };
 };
 
-const useSharedAudio = () => useBetween(useAudioPlayer);
-export default useSharedAudio;
+const useAudioPlayer = () => useBetween(AudioPlayer);
+export default useAudioPlayer;
