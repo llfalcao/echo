@@ -106,49 +106,12 @@ a {
   }
 }
 
-progress {
-  border: 0;
-  width: 500px;
-  height: 6px;
-  border-radius: 20px;
-  background-color: gray;
-  color: #341763;
-  transition: height 0.15s;
-  overflow: hidden;
+.bar {
+  max-height: 26px;
 }
-progress::-webkit-progress-bar {
-  border: 0;
-  width: 500px;
-  height: 6px;
-  border-radius: 20px;
-  background-color: gray;
-  transition: height 0.15s;
-  overflow: hidden;
+.bar__progress {
+  height: 4px;
 }
-progress::-moz-progress-bar {
-  border: 0;
-  width: 500px;
-  height: 6px;
-  border-radius: 20px;
-  background-color: #341763;
-  transition: height 0.15s;
+.bar:hover .bar__progress {
+  height: 8px;
 }
-progress::-webkit-progress-value {
-  border: 0;
-  width: 500px;
-  height: 6px;
-  background-color: #341763;
-  transition: height 0.15s;
-}
-/* .bar:hover progress {
-  height: 12px;
-}
-.bar:hover progress::-webkit-progress-bar {
-  height: 12px;
-}
-.bar:hover progress::-moz-progress-bar {
-  height: 12px;
-}
-.bar:hover progress::-webkit-progress-value {
-  height: 12px;
-} */

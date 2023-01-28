@@ -1,5 +1,5 @@
 import useAudioPlayer from "@/hooks/useAudioPlayer";
-import { MouseEvent, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 
 const ProgressBar = () => {
   const {
@@ -9,11 +9,16 @@ const ProgressBar = () => {
     setClickedTime,
   } = useAudioPlayer();
 
-  const progress = useRef<HTMLProgressElement>(null);
+  const progress = useRef<HTMLDivElement>(null);
   const thumb = useRef<HTMLButtonElement>(null);
-  const percentage =
-    currentTime && duration > 0 ? (currentTime / duration) * 100 : 0;
+  const [percentage, setPercentage] = useState<any>(0);
   const [thumbPosition, setThumbPosition] = useState<number | undefined>();
+
+  useEffect(() => {
+    setPercentage(
+      currentTime && duration > 0 ? (currentTime / duration) * 100 : 0,
+    );
+  }, [currentTime, duration]);
 
   const getClickedTime = (event: any) => {
     if (progress.current && duration) {
@@ -30,65 +35,82 @@ const ProgressBar = () => {
     return 0;
   };
 
-  const onHold = (event: MouseEvent) => {
+  const onMouseDown = (event: MouseEvent) => {
     if (!audio.current) return;
     let clickedTime = getClickedTime(event);
+    let percentage = (clickedTime / duration) * 100;
+    setThumbPosition(percentage < 100 ? percentage : 100);
 
-    const onMove = (event: any) => {
+    const onMouseMove = (event: any) => {
       clickedTime = getClickedTime(event);
-      const percentage = (clickedTime / duration) * 100;
+      percentage = (clickedTime / duration) * 100;
       setThumbPosition(percentage < 100 ? percentage : 100);
     };
 
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", () => {
+    const onMouseUp = () => {
+      setPercentage(percentage);
       setThumbPosition(undefined);
       setClickedTime(clickedTime);
-      document.removeEventListener("mousemove", onMove);
-    });
+      document.removeEventListener("mousemove", onMouseMove);
+    };
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp, { once: true });
   };
 
   return (
     <div
       className="bar"
       style={{
-        position: "relative",
         display: "flex",
         margin: "10px",
         padding: "10px 0",
-        width: "max-content",
-        height: "12px",
+        width: "500px",
         alignItems: "center",
       }}
-      onMouseDown={onHold}
     >
-      <progress
-        max={duration}
-        value={currentTime}
-        className="test"
+      <div
+        onMouseDown={onMouseDown}
         ref={progress}
-      />
-      <button
-        ref={thumb}
+        className="bar__progress"
         style={{
-          background: "none",
-          border: 0,
-          position: "absolute",
-          left: `${thumbPosition ?? percentage}%`,
-          top: "50%",
-          transform: "translate3d(-6px,-42%,0)",
-          outline: "none",
+          background: percentage
+            ? `linear-gradient(to right, #5114ad ${
+                thumbPosition ?? percentage
+              }%, #999 0)`
+            : "#999",
+
+          borderRadius: "5px",
+          margin: "2px 0 0",
+          padding: "2px 0",
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          transition: "0.1s ease-out",
         }}
       >
-        <svg
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="white"
-          width={14}
+        <button
+          ref={thumb}
+          style={{
+            background: "none",
+            border: 0,
+            position: "relative",
+            left: `${thumbPosition ?? percentage}%`,
+
+            transform: "translate3d(-6px,1px,0)",
+            outline: "none",
+          }}
         >
-          <circle cx="50%" cy="50%" r="50%" />
-        </svg>
-      </button>
+          <svg
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="white"
+            width={14}
+          >
+            <circle cx="50%" cy="50%" r="50%" />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 };
