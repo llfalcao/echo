@@ -99,7 +99,7 @@ const AudioPlayer = () => {
     }
   };
 
-  const onLoadedData = () => {
+  const onLoadedMetadata = () => {
     setCurrentTime(audio.current?.currentTime);
     setDuration(audio.current?.duration);
   };
@@ -116,14 +116,14 @@ const AudioPlayer = () => {
     audio.current?.addEventListener("pause", onPause);
     audio.current?.addEventListener("ended", () => onNext("ended"));
     audio.current?.addEventListener("timeupdate", onTimeUpdate);
-    audio.current?.addEventListener("loadeddata", onLoadedData);
+    audio.current?.addEventListener("loadedmetadata", onLoadedMetadata);
 
     return () => {
       audio.current?.removeEventListener("play", onPlay);
       audio.current?.removeEventListener("pause", onPause);
       audio.current?.removeEventListener("ended", () => onNext("ended"));
       audio.current?.removeEventListener("timeupdate", onTimeUpdate);
-      audio.current?.removeEventListener("loadeddata", onLoadedData);
+      audio.current?.removeEventListener("loadeddata", onLoadedMetadata);
     };
   }, [audio, src, playlist, clickedTime]);
 

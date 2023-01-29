@@ -1,5 +1,8 @@
-import useAudioPlayer from "@/hooks/useAudioPlayer";
 import { MouseEvent, useEffect, useRef, useState } from "react";
+import moment from "moment";
+import "moment-duration-format";
+
+import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 const ProgressBar = () => {
   const {
@@ -58,59 +61,67 @@ const ProgressBar = () => {
     document.addEventListener("mouseup", onMouseUp, { once: true });
   };
 
-  return (
-    <div
-      className="bar"
-      style={{
-        display: "flex",
-        margin: "10px",
-        padding: "10px 0",
-        width: "500px",
-        alignItems: "center",
-      }}
-    >
-      <div
-        onMouseDown={onMouseDown}
-        ref={progress}
-        className="bar__progress"
-        style={{
-          background: percentage
-            ? `linear-gradient(to right, #5114ad ${
-                thumbPosition ?? percentage
-              }%, #999 0)`
-            : "#999",
+  const formatTime = (time: number) => {
+    return moment.duration(time, "seconds").format("mm:ss", { trim: false });
+  };
 
-          borderRadius: "5px",
-          margin: "2px 0 0",
-          padding: "2px 0",
+  return (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <span>{formatTime(currentTime)}</span>
+      <div
+        className="bar"
+        style={{
           display: "flex",
+          margin: "10px",
+          padding: "10px 0",
+          width: "500px",
           alignItems: "center",
-          width: "100%",
-          transition: "0.1s ease-out",
         }}
       >
-        <button
-          ref={thumb}
+        <div
+          onMouseDown={onMouseDown}
+          ref={progress}
+          className="bar__progress"
           style={{
-            background: "none",
-            border: 0,
-            position: "relative",
-            left: `${thumbPosition ?? percentage}%`,
+            background: percentage
+              ? `linear-gradient(to right, #5114ad ${
+                  thumbPosition ?? percentage
+                }%, #999 0)`
+              : "#999",
 
-            transform: "translate3d(-6px,1px,0)",
-            outline: "none",
+            borderRadius: "5px",
+            margin: "2px 0 0",
+            padding: "2px 0",
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            transition: "0.1s ease-out",
           }}
         >
-          <svg
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="white"
-            width={14}
+          <button
+            ref={thumb}
+            style={{
+              background: "none",
+              border: 0,
+              position: "relative",
+              left: `${thumbPosition ?? percentage}%`,
+
+              transform: "translate3d(-6px,1px,0)",
+              outline: "none",
+            }}
           >
-            <circle cx="50%" cy="50%" r="50%" />
-          </svg>
-        </button>
+            <svg
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="white"
+              width={14}
+            >
+              <circle cx="50%" cy="50%" r="50%" />
+            </svg>
+          </button>
+        </div>
       </div>
+      <span>{formatTime(duration)}</span>
     </div>
   );
 };
