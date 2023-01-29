@@ -32,12 +32,12 @@ const AudioPlayer = () => {
     }
   };
 
-  const onNext = (event?: string) => {
-    if (!playlist?.tracks) return;
+  const onNext = () => {
+    if (!playlist?.tracks || !audio.current) return;
     const hasNext = playlist.tracks[current + 1] !== undefined;
     const isLast = playlist.tracks.length - 1 === current;
 
-    if (repeat === "song" && audio.current) {
+    if (repeat === "song") {
       audio.current.currentTime = 0;
     } else if (repeat === "playlist" && isLast) {
       setCurrent(0);
@@ -45,7 +45,7 @@ const AudioPlayer = () => {
       setCurrent(current + 1);
     }
 
-    if (hasNext && event === "ended") {
+    if (hasNext && audio.current.ended) {
       setPlaying(true);
     }
   };
@@ -107,21 +107,21 @@ const AudioPlayer = () => {
   const onTimeUpdate = () => setCurrentTime(audio.current?.currentTime);
 
   useEffect(() => {
-    if (audio.current && clickedTime) {
+    if (audio.current && typeof clickedTime === "number") {
       audio.current.currentTime = clickedTime;
     }
     navigator.mediaSession.setActionHandler("play", onPlay);
     navigator.mediaSession.setActionHandler("pause", onPause);
     audio.current?.addEventListener("play", onPlay);
     audio.current?.addEventListener("pause", onPause);
-    audio.current?.addEventListener("ended", () => onNext("ended"));
+    audio.current?.addEventListener("ended", onNext);
     audio.current?.addEventListener("timeupdate", onTimeUpdate);
     audio.current?.addEventListener("loadedmetadata", onLoadedMetadata);
 
     return () => {
       audio.current?.removeEventListener("play", onPlay);
       audio.current?.removeEventListener("pause", onPause);
-      audio.current?.removeEventListener("ended", () => onNext("ended"));
+      audio.current?.removeEventListener("ended", onNext);
       audio.current?.removeEventListener("timeupdate", onTimeUpdate);
       audio.current?.removeEventListener("loadeddata", onLoadedMetadata);
     };

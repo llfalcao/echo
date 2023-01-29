@@ -14,7 +14,7 @@ const ProgressBar = () => {
 
   const progress = useRef<HTMLDivElement>(null);
   const thumb = useRef<HTMLButtonElement>(null);
-  const [percentage, setPercentage] = useState<any>(0);
+  const [percentage, setPercentage] = useState<number>(0);
   const [thumbPosition, setThumbPosition] = useState<number | undefined>();
 
   useEffect(() => {
@@ -31,15 +31,18 @@ const ProgressBar = () => {
       const barWidth = progress.current.offsetWidth;
       const barClickPosition = pageClickPosition - barStart;
       const timePerPixel = duration / barWidth;
+      const result = timePerPixel * barClickPosition;
 
-      return timePerPixel * barClickPosition;
+      if (result <= 0) return 0;
+      if (result >= duration) return duration;
+      return result;
     }
 
     return 0;
   };
 
   const onMouseDown = (event: MouseEvent) => {
-    if (!audio.current) return;
+    if (!audio.current || !duration) return;
     let clickedTime = getClickedTime(event);
     let percentage = (clickedTime / duration) * 100;
     setThumbPosition(percentage < 100 ? percentage : 100);
@@ -53,6 +56,7 @@ const ProgressBar = () => {
     const onMouseUp = () => {
       setPercentage(percentage);
       setThumbPosition(undefined);
+
       setClickedTime(clickedTime);
       document.removeEventListener("mousemove", onMouseMove);
     };
