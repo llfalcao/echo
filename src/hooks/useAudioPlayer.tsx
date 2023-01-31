@@ -15,7 +15,7 @@ const AudioPlayer = () => {
   const [currentTime, setCurrentTime] = useState<number | undefined>(0);
   const [duration, setDuration] = useState<number | undefined>(0);
   const [clickedTime, setClickedTime] = useState<number | undefined>();
-  const [volume, setVolume] = useState<number | undefined>(100);
+  const [volume, setVolume] = useState<number | undefined>();
 
   const onPlay = () => {
     setPlaying(true);

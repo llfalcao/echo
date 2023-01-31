@@ -89,7 +89,7 @@ export default function ProgressBar() {
           style={{
             background:
               thumbPosition ?? percentage
-                ? `linear-gradient(to right, #5114ad ${
+                ? `linear-gradient(to right, #5555df ${
                     thumbPosition ?? percentage
                   }%, #999 0)`
                 : "#999",
