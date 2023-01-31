@@ -19,14 +19,20 @@ export default function Player() {
   } = useAudioPlayer();
 
   useEffect(() => {
-    fetch("/api/playlists/1")
+    // TODO: load the last played playlist
+  }, []);
+
+  const testPlaylist = (id: number) => {
+    fetch(`/api/playlists/${id}`)
       .then((res) => res.json())
       .then((data) => setPlaylist(data));
-  }, []);
+  };
 
   return (
     <div>
       <audio id="audio" ref={audio} controls />
+      <button onClick={() => testPlaylist(1)}>start 1</button>
+      <button onClick={() => testPlaylist(2)}>start 2</button>
       <div>
         {playing ? (
           <button onClick={onPause}>Pause</button>

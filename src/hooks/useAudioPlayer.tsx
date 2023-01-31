@@ -134,7 +134,7 @@ const AudioPlayer = () => {
       audio.current?.removeEventListener("loadeddata", onLoadedMetadata);
       audio.current?.removeEventListener("volumechange", onVolumeChange);
     };
-  }, [audio, src, playlist, clickedTime]);
+  }, [audio, src, clickedTime]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && audio.current) {
@@ -152,6 +152,7 @@ const AudioPlayer = () => {
 
     if (playlist.id !== originalPlaylist?.id) {
       setOriginalPlaylist(playlist);
+      setCurrent(0);
     }
 
     fetch(`/api/audio/${playlist.tracks[current]}`)
