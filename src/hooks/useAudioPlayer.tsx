@@ -134,7 +134,7 @@ const AudioPlayer = () => {
       audio.current?.removeEventListener("loadeddata", onLoadedMetadata);
       audio.current?.removeEventListener("volumechange", onVolumeChange);
     };
-  }, [audio, src, playlist, clickedTime, volume]);
+  }, [audio, src, playlist, clickedTime]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && audio.current) {
