@@ -115,3 +115,60 @@ a {
 .bar:hover .bar__progress {
   height: 8px;
 }
+
+.volume {
+  /* height: 100%; */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 10px 0;
+  background: transparent;
+  border-radius: 50px;
+}
+.volume:focus {
+  outline: none;
+}
+.volume::-webkit-slider-runnable-track {
+  height: 5px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px #000000;
+  /* background: #fff; */
+  border: 0px solid #000000;
+}
+.volume::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 1px solid #000;
+  height: 14px;
+  width: 14px;
+  border-radius: 25px;
+  background: linear-gradient(to top right, #ddd 25%, white);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -4px;
+  display: none;
+  border: none;
+}
+.volume:hover::-webkit-slider-thumb {
+  display: block;
+}
+.volume::-moz-range-track {
+  height: 5px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px #000000;
+  background: white;
+  border-radius: 1px;
+  border: 0px solid #000000;
+}
+.volume::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 1px solid #000;
+  height: 14px;
+  width: 14px;
+  border-radius: 25px;
+  background: linear-gradient(to top right, #ddd 25%, white);
+  cursor: pointer;
+  -moz-appearance: none;
+  margin-top: -4px;
+  display: none;
+  border: none;
+}

@@ -4,7 +4,7 @@ import "moment-duration-format";
 
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 
-const ProgressBar = () => {
+export default function ProgressBar() {
   const {
     audio,
     currentTime = 0,
@@ -87,11 +87,12 @@ const ProgressBar = () => {
           ref={progress}
           className="bar__progress"
           style={{
-            background: percentage
-              ? `linear-gradient(to right, #5114ad ${
-                  thumbPosition ?? percentage
-                }%, #999 0)`
-              : "#999",
+            background:
+              thumbPosition ?? percentage
+                ? `linear-gradient(to right, #5114ad ${
+                    thumbPosition ?? percentage
+                  }%, #999 0)`
+                : "#999",
 
             borderRadius: "5px",
             margin: "2px 0 0",
@@ -109,7 +110,6 @@ const ProgressBar = () => {
               border: 0,
               position: "relative",
               left: `${thumbPosition ?? percentage}%`,
-
               transform: "translate3d(-6px,1px,0)",
               outline: "none",
             }}
@@ -128,6 +128,4 @@ const ProgressBar = () => {
       <span>{formatTime(duration)}</span>
     </div>
   );
-};
-
-export default ProgressBar;
+}

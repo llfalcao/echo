@@ -15,6 +15,7 @@ const AudioPlayer = () => {
   const [currentTime, setCurrentTime] = useState<number | undefined>(0);
   const [duration, setDuration] = useState<number | undefined>(0);
   const [clickedTime, setClickedTime] = useState<number | undefined>();
+  const [volume, setVolume] = useState<number | undefined>(100);
 
   const onPlay = () => {
     setPlaying(true);
@@ -106,6 +107,12 @@ const AudioPlayer = () => {
 
   const onTimeUpdate = () => setCurrentTime(audio.current?.currentTime);
 
+  const onVolumeChange = () => {
+    if (audio?.current) {
+      setVolume(Math.round(audio.current.volume * 100));
+    }
+  };
+
   useEffect(() => {
     if (audio.current && typeof clickedTime === "number") {
       audio.current.currentTime = clickedTime;
@@ -117,6 +124,7 @@ const AudioPlayer = () => {
     audio.current?.addEventListener("ended", onNext);
     audio.current?.addEventListener("timeupdate", onTimeUpdate);
     audio.current?.addEventListener("loadedmetadata", onLoadedMetadata);
+    audio.current?.addEventListener("volumechange", onVolumeChange);
 
     return () => {
       audio.current?.removeEventListener("play", onPlay);
@@ -124,8 +132,9 @@ const AudioPlayer = () => {
       audio.current?.removeEventListener("ended", onNext);
       audio.current?.removeEventListener("timeupdate", onTimeUpdate);
       audio.current?.removeEventListener("loadeddata", onLoadedMetadata);
+      audio.current?.removeEventListener("volumechange", onVolumeChange);
     };
-  }, [audio, src, playlist, clickedTime]);
+  }, [audio, src, playlist, clickedTime, volume]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && audio.current) {
@@ -159,14 +168,16 @@ const AudioPlayer = () => {
     currentTime,
     duration,
     clickedTime,
-    setClickedTime,
-    setPlaylist,
+    volume,
     onPlay,
     onPause,
     onPrevious,
     onNext,
     onRepeat,
     onShuffle,
+    setPlaylist,
+    setClickedTime,
+    setVolume,
   };
 };
 

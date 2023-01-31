@@ -2,6 +2,7 @@
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 import { useEffect } from "react";
 import ProgressBar from "./ProgressBar";
+import Volume from "./Volume";
 
 export default function Player() {
   const {
@@ -40,6 +41,7 @@ export default function Player() {
         <button onClick={onShuffle}>Shuffle</button>
       </div>
       <ProgressBar />
+      <Volume />
     </div>
   );
 }
