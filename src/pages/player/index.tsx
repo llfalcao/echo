@@ -2,7 +2,7 @@ import { Inter } from "@next/font/google";
 import Head from "next/head";
 const inter = Inter({ subsets: ["latin"] });
 
-const LandingPage = () => {
+export default function PlayerTest() {
   return (
     <>
       <Head>
@@ -14,6 +14,4 @@ const LandingPage = () => {
       <h1 className={inter.className}>Player</h1>
     </>
   );
-};
-
-export default LandingPage;
+}
