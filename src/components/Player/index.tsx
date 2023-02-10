@@ -37,7 +37,7 @@ export default function Player() {
         {playing ? (
           <button onClick={onPause}>Pause</button>
         ) : (
-          <button onClick={onPlay} disabled={src.length === 0}>
+          <button onClick={onPlay} disabled={!src}>
             Play
           </button>
         )}
