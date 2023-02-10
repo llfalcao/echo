@@ -4,15 +4,8 @@ import ytdl from "ytdl-core";
 const fetchTrack = async (yid: string) => {
   const url = `https://www.youtube.com/watch?v=${yid}`;
   const { formats } = await ytdl.getInfo(url);
-  const audio = formats.find(
-    (format) =>
-      format.mimeType?.includes("audio") &&
-      ((format.audioQuality as any) === "AUDIO_QUALITY_HIGH" ||
-        format.audioQuality === "AUDIO_QUALITY_MEDIUM" ||
-        format.audioQuality === "AUDIO_QUALITY_LOW"),
-  );
-
-  return audio?.url;
+  const format = ytdl.chooseFormat(formats, { filter: "audioonly" });
+  return format?.url;
 };
 
 export default async function handler(
