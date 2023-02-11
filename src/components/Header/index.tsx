@@ -1,16 +1,12 @@
-import Link from "next/link";
-import { Inter } from "@next/font/google";
-const inter = Inter({ subsets: ["latin"] });
-
 export default function Header() {
   return (
-    <ul style={inter.style}>
-      <li>
-        <Link href="/">Home</Link>
-      </li>
-      <li>
-        <Link href="/player">Player</Link>
-      </li>
-    </ul>
+    <header className="header">
+      <div className="header__user">
+        <p className="header__username">Lenz</p>
+        <div className="header__profilePic">
+          <i className="fa-solid fa-user-astronaut"></i>
+        </div>
+      </div>
+    </header>
   );
 }
