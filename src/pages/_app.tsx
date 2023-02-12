@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import Player from "@/components/Player";
 
-import "@/styles/globals.css";
+import "@/styles/index.scss";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -13,9 +13,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>re:tune | Web Player</title>
         <meta name="description" content="For songs lost in time" />
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
-
       <Sidebar />
       <div className="container">
         <Header />

@@ -70,22 +70,13 @@ export default function ProgressBar() {
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
-      <span>{formatTime(currentTime)}</span>
-      <div
-        className="bar"
-        style={{
-          display: "flex",
-          margin: "10px",
-          padding: "10px 0",
-          width: "500px",
-          alignItems: "center",
-        }}
-      >
+    <div className="seekbar">
+      <span className="bar__time">{formatTime(currentTime)}</span>
+      <div className="bar">
         <div
-          onMouseDown={onMouseDown}
-          ref={progress}
           className="bar__progress"
+          ref={progress}
+          onMouseDown={onMouseDown}
           style={{
             background:
               thumbPosition ?? percentage
@@ -93,39 +84,20 @@ export default function ProgressBar() {
                     thumbPosition ?? percentage
                   }%, #999 0)`
                 : "#999",
-
-            borderRadius: "5px",
-            margin: "2px 0 0",
-            padding: "2px 0",
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            transition: "0.1s ease-out",
           }}
         >
           <button
             ref={thumb}
-            style={{
-              background: "none",
-              border: 0,
-              position: "relative",
-              left: `${thumbPosition ?? percentage}%`,
-              transform: "translate3d(-6px,1px,0)",
-              outline: "none",
-            }}
+            className="bar__thumb"
+            style={{ left: `${thumbPosition ?? percentage}%` }}
           >
-            <svg
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="white"
-              width={14}
-            >
+            <svg viewBox="0 0 24 24" fill="white" width={14}>
               <circle cx="50%" cy="50%" r="50%" />
             </svg>
           </button>
         </div>
       </div>
-      <span>{formatTime(duration)}</span>
+      <span className="bar__time">{formatTime(duration)}</span>
     </div>
   );
 }

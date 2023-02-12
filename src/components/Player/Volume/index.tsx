@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { VolumeInput } from "./styles";
 
 export default function Volume() {
   const { audio, volume } = useAudioPlayer();
@@ -23,18 +24,15 @@ export default function Volume() {
   };
 
   return (
-    <input
-      className="volume"
-      type="range"
-      min="0"
-      max="100"
-      value={volume ?? fallback}
-      onInput={onVolumeChange}
-      style={{
-        background: `linear-gradient(to right, #5555df ${
-          volume ?? fallback
-        }%, #fff ${volume ?? fallback}%)`,
-      }}
-    />
+    <div className="volume">
+      <VolumeInput
+        type="range"
+        min="0"
+        max="100"
+        value={volume ?? fallback}
+        onInput={onVolumeChange}
+        percentage={volume ?? fallback}
+      />
+    </div>
   );
 }

@@ -1,0 +1,37 @@
+@import "fonts";
+@import "variables";
+@import "mixins";
+@import "themes";
+@import "base";
+@import "header";
+@import "sidebar";
+@import "main";
+@import "player";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100vh - #{$footerHeight});
+  overflow: hidden;
+  background: rgba(9, 9, 9, 0.75);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+    border-top: 3px solid lightgray;
+  }
+  to {
+    transform: rotate(360deg);
+    border-top: 3px solid lightgray;
+  }
+}
+
+.loading {
+  height: 65px;
+  aspect-ratio: 1;
+  border: 3px solid #161b22;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
