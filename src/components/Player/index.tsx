@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import Shuffle from "./Shuffle";
 import ProgressBar from "./ProgressBar";
 import Volume from "./Volume";
+import Previous from "./Previous";
 
 export default function Player() {
   const {
@@ -40,7 +41,7 @@ export default function Player() {
       <div className="player__controls">
         <div className="player__btns">
           <Shuffle />
-          <button onClick={onPrevious}>Previous</button>
+          <Previous />
           {playing ? (
             <button onClick={onPause}>Pause</button>
           ) : (
