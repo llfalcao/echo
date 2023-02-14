@@ -2,6 +2,7 @@
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 import { useEffect } from "react";
 
+import Shuffle from "./Shuffle";
 import ProgressBar from "./ProgressBar";
 import Volume from "./Volume";
 
@@ -16,7 +17,6 @@ export default function Player() {
     onPrevious,
     onNext,
     onRepeat,
-    onShuffle,
   } = useAudioPlayer();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function Player() {
 
       <div className="player__controls">
         <div className="player__btns">
-          <button onClick={onShuffle}>Shuffle</button>
+          <Shuffle />
           <button onClick={onPrevious}>Previous</button>
           {playing ? (
             <button onClick={onPause}>Pause</button>
