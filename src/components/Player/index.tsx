@@ -3,13 +3,14 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 import { useEffect } from "react";
 
 import Shuffle from "./Shuffle";
-import ProgressBar from "./ProgressBar";
-import Volume from "./Volume";
 import Previous from "./Previous";
 import Next from "./Next";
+import Repeat from "./Repeat";
+import ProgressBar from "./ProgressBar";
+import Volume from "./Volume";
 
 export default function Player() {
-  const { audio, src, playing, setPlaylist, onPlay, onPause, onRepeat } =
+  const { audio, src, playing, setPlaylist, onPlay, onPause } =
     useAudioPlayer();
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export default function Player() {
             </button>
           )}
           <Next />
-          <button onClick={onRepeat}>Repeat</button>
+          <Repeat />
         </div>
         <ProgressBar />
       </div>

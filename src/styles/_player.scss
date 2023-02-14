@@ -63,7 +63,7 @@
 }
 
 .player__shuffle,
-.player__loop {
+.player__repeat {
   @include prevNextBtn(24px);
 }
 
