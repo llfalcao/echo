@@ -72,13 +72,13 @@
   opacity: 1;
 
   svg {
-    fill: #8c75db;
+    fill: $purple;
   }
 
   &::after {
     position: absolute;
     content: "o";
-    color: #8c75db;
+    color: $purple;
     font-weight: 900;
     bottom: 0;
     transform: translateY(15px);

@@ -7,7 +7,7 @@ export default function Shuffle() {
   return (
     <button
       className={`player__shuffle ${shuffle ? "player__btn--active" : ""}`}
-      aria-label="Shuffle playlist"
+      aria-label="Shuffle Playlist"
       onClick={onShuffle}
     >
       <ShuffleRounded />
