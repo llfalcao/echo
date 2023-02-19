@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { NextPage } from "next";
+import Featured from "@/components/Featured";
+import Card from "@/components/Card";
 
 const Home: NextPage = () => {
   return (
@@ -11,6 +13,10 @@ const Home: NextPage = () => {
       </Head>
 
       <h1>Home</h1>
+      <Featured
+        title="Trending"
+        content={{ type: "playlist", ids: ["1", "2"] }}
+      />
     </>
   );
 };

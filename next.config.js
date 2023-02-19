@@ -4,6 +4,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  images: {
+    domains: ["i.imgur.com"],
+  },
 };
 
 module.exports = nextConfig;

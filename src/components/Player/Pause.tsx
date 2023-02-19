@@ -1,12 +1,15 @@
 import { Pause as PauseBtn } from "@material-ui/icons";
-
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 
-export default function Pause() {
+interface Props {
+  classes?: string;
+}
+
+export default function Pause({ classes = "player__btn" }: Props) {
   const { onPause } = useAudioPlayer();
 
   return (
-    <button className="player__btn" aria-label="Pause" onClick={onPause}>
+    <button className={classes} aria-label="Pause" onClick={onPause}>
       <PauseBtn className="player__pause" />
     </button>
   );

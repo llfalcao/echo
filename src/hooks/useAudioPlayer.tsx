@@ -164,6 +164,7 @@ const AudioPlayer = () => {
     audio,
     playing,
     src,
+    playlist,
     repeat,
     shuffle,
     currentTime,

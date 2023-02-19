@@ -12,8 +12,7 @@ import ProgressBar from "./ProgressBar";
 import Volume from "./Volume";
 
 export default function Player() {
-  const { audio, src, playing, setPlaylist, onPlay, onPause } =
-    useAudioPlayer();
+  const { audio, src, playing, setPlaylist, onPlay } = useAudioPlayer();
 
   useEffect(() => {
     // TODO: load the last played playlist
@@ -37,7 +36,7 @@ export default function Player() {
         <div className="player__btns">
           <Shuffle />
           <Previous />
-          {playing ? <Pause /> : <Play />}
+          {playing ? <Pause /> : <Play disabled={!src} onClick={onPlay} />}
           <Next />
           <Repeat />
         </div>

@@ -1,15 +1,19 @@
 import { PlayArrowRounded } from "@material-ui/icons";
-import useAudioPlayer from "@/hooks/useAudioPlayer";
+import { MouseEventHandler } from "react";
 
-export default function Play() {
-  const { src, onPlay } = useAudioPlayer();
+interface Props {
+  classes?: string;
+  disabled?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+}
 
+export default function Play({ classes, disabled, onClick }: Props) {
   return (
     <button
-      className="player__btn"
+      className={classes ?? "player__btn"}
       aria-label="Play"
-      disabled={!src}
-      onClick={onPlay}
+      disabled={disabled}
+      onClick={onClick}
     >
       <PlayArrowRounded className="player__play" />
     </button>
