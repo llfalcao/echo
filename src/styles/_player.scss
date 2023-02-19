@@ -72,13 +72,13 @@
   opacity: 1;
 
   svg {
-    fill: $purple;
+    fill: #8686ff;
   }
 
   &::after {
     position: absolute;
     content: "o";
-    color: $purple;
+    color: #8686ff;
     font-weight: 900;
     bottom: 0;
     transform: translateY(15px);
@@ -90,30 +90,28 @@
   align-items: center;
 }
 
+.bar {
+  display: flex;
+  flex: none;
+  margin: 10px;
+  width: 420px;
+  max-height: 6px;
+  align-items: center;
+
+  &:hover .bar__progress {
+    height: 8px;
+  }
+}
+
 .bar__time {
   color: #b9b9b9;
   font-size: 12px;
   min-width: 60px;
-  text-align: center;
   text-align: left;
 
   &:first-child {
     direction: rtl;
     text-align: right;
-  }
-}
-
-.bar {
-  display: flex;
-  flex: none;
-  margin: 10px;
-  padding: 10px 0;
-  width: 500px;
-  align-items: center;
-  max-height: 26px;
-
-  &:hover .bar__progress {
-    height: 8px;
   }
 }
 

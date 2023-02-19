@@ -8,7 +8,7 @@ export default function Repeat() {
     <button
       className={`player__repeat ${
         repeat !== "none" ? "player__btn--active" : ""
-      }`}
+      }`.trim()}
       aria-label={
         repeat === "none"
           ? "Enable Repeat"
