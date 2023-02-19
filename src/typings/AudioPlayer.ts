@@ -2,6 +2,7 @@ export interface Playlist {
   id: string;
   title: string;
   tracks: Track[];
+  image?: string;
 }
 
 export interface Track {
@@ -9,7 +10,7 @@ export interface Track {
   yid: string;
   title: string;
   // url: string;
-  cover?: string;
+  image?: string;
   artist?: string;
   lyrics?: string;
   // addedAt: Date;

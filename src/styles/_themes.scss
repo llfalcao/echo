@@ -58,6 +58,10 @@
     text-shadow: none;
   }
 
+  .featured {
+    background: linear-gradient(to bottom, #ebe3ff87, transparent);
+  }
+
   .card:hover {
     background: rgba(white, 25%);
   }

@@ -20,15 +20,17 @@ main h2 {
   margin-bottom: 15px;
 }
 
-.playlist {
+.featured {
+  background: #1a1a1a8c;
   padding: 20px;
+  border-radius: 12px;
 }
 
-.playlist__title {
+.featured__title {
   margin-left: 15px;
 }
 
-.playlist__cardContainer {
+.featured__cards {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -80,6 +82,15 @@ main h2 {
   right: 20px;
   z-index: 0;
   opacity: 0;
+
+  &:disabled {
+    background-color: $purple;
+
+    svg {
+      fill: $white;
+      opacity: 1;
+    }
+  }
 }
 
 .card__pauseBtn {
