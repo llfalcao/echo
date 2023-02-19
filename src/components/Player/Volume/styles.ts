@@ -20,10 +20,16 @@ export const VolumeInput = styled.input`
   &::-webkit-slider-runnable-track {
     height: 5px;
     cursor: pointer;
-    box-shadow: 0px 0px 0px #000000;
-    border: 0px solid #000000;
     background: ${(props: VolumeInputProps) =>
-      `linear-gradient(to right, #5555df ${props.percentage}%, #fff ${props.percentage}%)`};
+      `linear-gradient(to right, #5555df ${props.percentage}%, #7d7d7d ${props.percentage}%)`};
+    border-radius: 50px;
+  }
+
+  &::-moz-range-track {
+    height: 5px;
+    cursor: pointer;
+    background: ${(props: VolumeInputProps) =>
+      `linear-gradient(to right, #5555df ${props.percentage}%, #7d7d7d ${props.percentage}%)`};
     border-radius: 50px;
   }
 
@@ -39,16 +45,6 @@ export const VolumeInput = styled.input`
     margin-top: -4px;
     display: none;
     border: none;
-  }
-
-  &::-moz-range-track {
-    height: 5px;
-    cursor: pointer;
-    box-shadow: 0px 0px 0px #000000;
-    background: ${(props: VolumeInputProps) =>
-      `linear-gradient(to right, #5555df ${props.percentage}%, #fff ${props.percentage}%)`};
-    border-radius: 50px;
-    border: 0px solid #000000;
   }
 
   &::-moz-range-thumb {
