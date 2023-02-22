@@ -15,7 +15,8 @@ const Home: NextPage = () => {
       <h1>Home</h1>
       <Featured
         title="Trending"
-        content={{ type: "playlist", ids: ["1", "2"] }}
+        content={{ type: "playlist", ids: ["63f55db2996f801071b43ccf"] }}
+        imagePriority={true}
       />
     </>
   );

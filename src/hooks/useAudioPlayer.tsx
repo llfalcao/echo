@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Playlist } from "@/typings/AudioPlayer";
 import { useEffect, useRef, useState } from "react";
 import { useBetween } from "use-between";
 
@@ -155,7 +154,7 @@ const AudioPlayer = () => {
       setCurrent(0);
     }
 
-    fetch(`/api/audio/${playlist.tracks[current]}`)
+    fetch(`/api/audio/${playlist.tracks[current].yid}`)
       .then((res) => res.json())
       .then((data) => setSrc(data.src));
   }, [playlist?.id, current]);

@@ -1,4 +1,59 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import clientPromise from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
+
+const getPlaylist = async (id: string) => {
+  try {
+    const client = await clientPromise;
+    const db = client.db();
+    const objectId = new ObjectId(id);
+    const data = await db
+      .collection("playlists")
+      .aggregate([
+        {
+          $match: {
+            _id: objectId,
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            id: 1,
+            title: 1,
+            cover_image: 1,
+            tracks: 1,
+          },
+        },
+        {
+          $lookup: {
+            from: "tracks",
+            localField: "tracks",
+            foreignField: "id",
+            pipeline: [
+              {
+                $project: {
+                  _id: 1,
+                  id: 1,
+                  yid: 1,
+                  title: 1,
+                  cover_image: 1,
+                  lyrics: 1,
+                },
+              },
+            ],
+            as: "tracks",
+          },
+        },
+      ])
+      .toArray();
+
+    console.log("# out", data);
+    return data[0];
+  } catch (e) {
+    console.error(e);
+    return {};
+  }
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -6,25 +61,9 @@ export default async function handler(
 ) {
   const { id } = req.query;
 
-  const tmpPlaylist = [
-    {
-      id: 1,
-      title: "Rock",
-      tracks: ["J_sRkv-cNbU", "keuSMpUEdeQ", "HSDdRxAEdcs"],
-      image: "https://i.imgur.com/eGctkzU.jpg",
-    },
-    {
-      id: 2,
-      title: "Dubstep",
-      tracks: ["yJg-Y5byMMw", "p7ZsBPK656s", "jK2aIUmmdP4"],
-      image: "https://i.imgur.com/YAgH36N.jpg",
-    },
-  ];
-
   if (typeof id === "string") {
-    res
-      .status(200)
-      .json(tmpPlaylist.find((playlist) => playlist.id === parseInt(id)));
+    const playlist = await getPlaylist(id);
+    res.status(200).json(playlist);
   } else {
     res.status(404).send("404 Not Found");
   }
