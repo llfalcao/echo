@@ -98,8 +98,14 @@
   max-height: 6px;
   align-items: center;
 
-  &:hover .bar__progress {
-    height: 8px;
+  &:hover {
+    .bar__progress {
+      height: 8px;
+    }
+
+    .bar__thumb {
+      display: block;
+    }
   }
 }
 
@@ -127,6 +133,7 @@
 }
 
 .bar__thumb {
+  display: none;
   cursor: pointer;
   background: none;
   border: 0;
