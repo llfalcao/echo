@@ -32,6 +32,7 @@ export default function Volume() {
         value={volume ?? fallback}
         onInput={onVolumeChange}
         percentage={volume ?? fallback}
+        aria-label="Volume Slider"
       />
     </div>
   );
