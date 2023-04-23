@@ -3,6 +3,7 @@ import Image from "next/image";
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 import Play from "../Player/Play";
 import Pause from "../Player/Pause";
+import { getPlaceholder } from "@/utils/images";
 
 interface Props {
   data: Playlist | Track;
@@ -57,6 +58,8 @@ export default function Card({
         loading={imagePriority ? "eager" : "lazy"}
         quality={100}
         priority={imagePriority}
+        placeholder="blur"
+        blurDataURL={`data:image/svg+xml;base64,${getPlaceholder(150, 150)}`}
       />
       <p className="card__title">{title || ""}</p>
       {playing &&
