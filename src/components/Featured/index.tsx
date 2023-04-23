@@ -4,20 +4,25 @@ import Card from "../Card";
 interface Props {
   title?: string;
   content: {
-    type: "playlist";
+    type: "playlist" | "track";
     ids: string[];
   };
   imagePriority?: boolean;
 }
 
-export default function Featured({ title, content, imagePriority }: Props) {
+export default function Featured({
+  title,
+  content,
+  imagePriority = false,
+}: Props) {
   const [data, setData] = useState<Playlist[]>([]);
 
   useEffect(() => {
-    const fetchPlaylists = async () => {
+    const fetchData = async () => {
       try {
         const promises = content.ids.map(async (id) => {
-          const res = await fetch(`/api/playlists/${id}`);
+          const minimal = content.type === "playlist" ? "?minimal=true" : "";
+          const res = await fetch(`/api/playlists/${id}${minimal}`);
           return await res.json();
         });
 
@@ -28,16 +33,34 @@ export default function Featured({ title, content, imagePriority }: Props) {
       }
     };
 
-    fetchPlaylists();
-  }, [content.ids]);
-  console.log("# data", data);
+    fetchData();
+  }, [content.type, content.ids]);
+
+  if (!data.length) return null;
+
   return (
     <div className="featured">
-      {title && <h2 className="featured__title">Trending</h2>}
+      {title && <h2 className="featured__title">{title}</h2>}
       <ul className="featured__cards">
-        {data.map((item) => (
-          <Card key={item.id} data={item} imagePriority={imagePriority} />
-        ))}
+        {content.type === "playlist"
+          ? data.map((item) => (
+              <Card
+                key={item.id}
+                data={item}
+                type={content.type}
+                imagePriority={imagePriority}
+              />
+            ))
+          : data[0].tracks.map((item, index) => (
+              <Card
+                key={item.id}
+                playlistId={data[0].id}
+                index={index}
+                data={item}
+                type={content.type}
+                imagePriority={imagePriority}
+              />
+            ))}
       </ul>
     </div>
   );

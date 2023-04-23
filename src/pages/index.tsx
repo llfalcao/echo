@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { NextPage } from "next";
 import Featured from "@/components/Featured";
-import Card from "@/components/Card";
 
 const Home: NextPage = () => {
   return (
@@ -14,8 +13,13 @@ const Home: NextPage = () => {
 
       <h1>Home</h1>
       <Featured
-        title="Trending"
-        content={{ type: "playlist", ids: ["63f55db2996f801071b43ccf"] }}
+        title="Trending (playlists)"
+        content={{ type: "playlist", ids: ["9vQBpbcmSqaPz59ZEurUa"] }}
+        imagePriority={true}
+      />
+      <Featured
+        title="Famously Unknown (songs)"
+        content={{ type: "track", ids: ["9vQBpbcmSqaPz59ZEurUa"] }}
         imagePriority={true}
       />
     </>

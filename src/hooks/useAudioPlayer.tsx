@@ -2,12 +2,21 @@
 import { useEffect, useRef, useState } from "react";
 import { useBetween } from "use-between";
 
+interface Player {
+  playlist?: Playlist;
+  current: number;
+  userInteracted: boolean;
+}
+
 const AudioPlayer = () => {
   const audio = useRef<HTMLAudioElement | null>(null);
+  const [player, setPlayer] = useState<Player>({
+    playlist: undefined,
+    current: 0,
+    userInteracted: false,
+  });
   const [src, setSrc] = useState<string>("");
   const [playing, setPlaying] = useState<boolean>(false);
-  const [playlist, setPlaylist] = useState<Playlist>();
-  const [current, setCurrent] = useState<number>(0);
   const [repeat, setRepeat] = useState<"none" | "song" | "playlist">("none");
   const [shuffle, setShuffle] = useState<boolean>(false);
   const [originalPlaylist, setOriginalPlaylist] = useState<Playlist>();
@@ -15,6 +24,7 @@ const AudioPlayer = () => {
   const [duration, setDuration] = useState<number | undefined>(0);
   const [clickedTime, setClickedTime] = useState<number | undefined>();
   const [volume, setVolume] = useState<number | undefined>();
+  const [loaded, setLoaded] = useState<boolean>(false);
 
   const onPlay = () => {
     setPlaying(true);
@@ -27,22 +37,22 @@ const AudioPlayer = () => {
   };
 
   const onPrevious = () => {
-    if (playlist?.tracks[current - 1]) {
-      setCurrent(current - 1);
+    if (player.playlist?.tracks[player.current - 1]) {
+      setPlayer({ ...player, current: player.current - 1 });
     }
   };
 
   const onNext = () => {
-    if (!playlist?.tracks || !audio.current) return;
-    const hasNext = playlist.tracks[current + 1] !== undefined;
-    const isLast = playlist.tracks.length - 1 === current;
+    if (!player.playlist?.tracks || !audio.current) return;
+    const hasNext = player.playlist.tracks[player.current + 1] !== undefined;
+    const isLast = player.playlist.tracks.length - 1 === player.current;
 
     if (repeat === "song") {
       audio.current.currentTime = 0;
     } else if (repeat === "playlist" && isLast) {
-      setCurrent(0);
+      setPlayer({ ...player, current: 0 });
     } else if (hasNext) {
-      setCurrent(current + 1);
+      setPlayer({ ...player, current: player.current + 1 });
     }
 
     if (hasNext && audio.current.ended) {
@@ -69,11 +79,14 @@ const AudioPlayer = () => {
   };
 
   const onShuffle = () => {
-    if (!playlist?.tracks || !originalPlaylist?.tracks) return;
+    if (!player.playlist?.tracks || !originalPlaylist?.tracks) return;
 
     if (!shuffle) {
-      const previousTracks = playlist.tracks.slice(0, current + 1);
-      let target = playlist.tracks.slice(current + 1);
+      const previousTracks = player.playlist.tracks.slice(
+        0,
+        player.current + 1,
+      );
+      let target = player.playlist.tracks.slice(player.current + 1);
 
       for (let i = 0; i < target.length; i++) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -81,11 +94,18 @@ const AudioPlayer = () => {
       }
 
       const shuffled = [...previousTracks, ...target];
-      setPlaylist({ ...playlist, tracks: shuffled });
+      setPlayer({
+        ...player,
+        playlist: {
+          ...player.playlist,
+          tracks: shuffled,
+        },
+      });
+
       setShuffle(true);
     } else {
       const currentTrack = originalPlaylist.tracks.indexOf(
-        playlist.tracks[current],
+        player.playlist.tracks[player.current],
       );
 
       const previousTracks = originalPlaylist.tracks.slice(0, currentTrack + 1);
@@ -94,7 +114,14 @@ const AudioPlayer = () => {
         ...originalPlaylist.tracks.slice(currentTrack + 1),
       ];
 
-      setPlaylist({ ...playlist, tracks: unshuffled });
+      setPlayer({
+        ...player,
+        playlist: {
+          ...player.playlist,
+          tracks: unshuffled,
+        },
+      });
+
       setShuffle(false);
     }
   };
@@ -102,6 +129,7 @@ const AudioPlayer = () => {
   const onLoadedMetadata = () => {
     setCurrentTime(audio.current?.currentTime);
     setDuration(audio.current?.duration);
+    setLoaded(true);
   };
 
   const onTimeUpdate = () => setCurrentTime(audio.current?.currentTime);
@@ -147,38 +175,63 @@ const AudioPlayer = () => {
   }, [src]);
 
   useEffect(() => {
-    if (!playlist) return;
+    if (!player.playlist) return;
 
-    if (playlist.id !== originalPlaylist?.id) {
-      setOriginalPlaylist(playlist);
-      setCurrent(0);
+    if (player.playlist.id !== originalPlaylist?.id) {
+      setOriginalPlaylist(player.playlist);
     }
 
-    fetch(`/api/audio/${playlist.tracks[current].yid}`)
-      .then((res) => res.json())
-      .then((data) => setSrc(data.src));
-  }, [playlist?.id, current]);
+    const fetchPlaylist = async () => {
+      const response = await fetch(
+        `/api/audio/${player.playlist?.tracks[player.current].yid}`,
+      );
+      const data = await response.json();
+      setSrc(data.src);
+    };
+
+    fetchPlaylist();
+  }, [player.playlist?.id, player.current]);
+
+  useEffect(() => {
+    if (loaded && player.userInteracted) {
+      onPlay();
+      setLoaded(false);
+      setPlayer({ ...player, userInteracted: false });
+    }
+  }, [loaded, player.userInteracted]);
+
+  const updatePlaylist = async (
+    id: string,
+    index: number = 0,
+    userInteracted: boolean,
+  ) => {
+    const response = await fetch(`/api/playlists/${id}`);
+    const data = await response.json();
+    setPlayer({ playlist: data, current: index, userInteracted });
+  };
 
   return {
     audio,
     playing,
     src,
-    playlist,
+    player,
     repeat,
     shuffle,
     currentTime,
     duration,
     clickedTime,
     volume,
+    loaded,
     onPlay,
     onPause,
     onPrevious,
     onNext,
     onRepeat,
     onShuffle,
-    setPlaylist,
+    setPlayer,
     setClickedTime,
     setVolume,
+    updatePlaylist,
   };
 };
 

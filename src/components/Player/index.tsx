@@ -12,7 +12,7 @@ import ProgressBar from "./ProgressBar";
 import Volume from "./Volume";
 
 export default function Player() {
-  const { audio, src, playing, setPlaylist, onPlay } = useAudioPlayer();
+  const { audio, src, playing, player, setPlayer, onPlay } = useAudioPlayer();
 
   useEffect(() => {
     // TODO: load the last played playlist
@@ -21,7 +21,7 @@ export default function Player() {
   const testPlaylist = (id: number) => {
     fetch(`/api/playlists/${id}`)
       .then((res) => res.json())
-      .then((data) => setPlaylist(data));
+      .then((data) => setPlayer({ ...player, playlist: data }));
   };
 
   return (
