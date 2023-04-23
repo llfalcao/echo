@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  align-items: center;
+  min-height: $headerHeight;
+  margin-left: auto;
+  padding: 0 20px;
+}
+
+.header__user {
+  display: flex;
+  align-items: center;
+}
+
+.header__username {
+  margin-right: 7px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.header_profilePic {
+  background: $purple;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

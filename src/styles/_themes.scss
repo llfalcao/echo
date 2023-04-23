@@ -1,0 +1,82 @@
+:root {
+  --bg: #101112;
+  --fg: #fafafa;
+}
+
+[data-theme="light"] {
+  --bg: #eeeeee;
+  --fg: #111111;
+
+  // Header
+  .header {
+    color: $white;
+  }
+
+  .header__username {
+    color: $white;
+  }
+
+  // Sidebar
+  .sidebar {
+    background: #ebe3ff;
+  }
+
+  .sidebar__logoText {
+    color: $purple;
+  }
+
+  .menu__link {
+    color: $black-90;
+
+    &:hover {
+      color: $black;
+    }
+  }
+
+  // Theme Toggle
+  .themeToggle__switch {
+    padding: 4px;
+    background-color: #1983ef;
+  }
+
+  .themeToggle__circle {
+    margin-left: 0;
+    transform: translateX(-100%);
+  }
+
+  .container {
+    background-color: rgb(235 227 255 / 73%);
+  }
+
+  // Main
+  h1 {
+    text-shadow: none;
+    color: #1f1f1f;
+  }
+
+  h2 {
+    text-shadow: none;
+  }
+
+  .featured__title {
+    color: #353535;
+  }
+
+  .card:hover {
+    background: rgba($white, 25%);
+  }
+
+  .card__image {
+    box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.1);
+  }
+
+  .card__title {
+    color: $black-90;
+    text-shadow: none;
+  }
+
+  // 404
+  .notFound__code {
+    border-color: #000;
+  }
+}

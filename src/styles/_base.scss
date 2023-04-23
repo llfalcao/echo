@@ -1,0 +1,80 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "CircularStd", "sans-serif";
+  font-weight: 400;
+  text-decoration: none;
+  transition: background-color 0.15s ease-in;
+}
+
+body {
+  background-color: $black;
+  color: var(--fg);
+  position: relative;
+  max-width: 100vw;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  background: #3f4d54;
+  background: radial-gradient(at center center,
+      rgba(34, 34, 34, 0.548) 0%,
+      rgba(70, 0, 70, 0.377) 100%),
+    url("../assets/images/bg.webp") no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100%;
+  -webkit-filter: blur(12px);
+  -moz-filter: blur(12px);
+  -o-filter: blur(12px);
+  -ms-filter: blur(12px);
+  filter: blur(12px);
+}
+
+ul,
+nav {
+  list-style: none;
+}
+
+li,
+a,
+button {
+  outline: 2px solid transparent;
+
+  &:focus {
+    outline: 2px solid $white;
+    transition: $focus;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+a {
+  color: var(--fg);
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+}
+
+// Scrollbar
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: rgba($lightPurple, 0.6);
+  }
+}
