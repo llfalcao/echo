@@ -13,7 +13,7 @@ interface Props {
 
 export default function MyDocument(props: Props) {
   return (
-    <Html>
+    <Html lang="en">
       <Head>{props.styles}</Head>
       <body>
         <Main />
