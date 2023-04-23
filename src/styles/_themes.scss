@@ -58,12 +58,12 @@
     text-shadow: none;
   }
 
-  .featured {
-    background: linear-gradient(to bottom, #ebe3ff87, transparent);
+  .featured__title {
+    color: #353535;
   }
 
   .card:hover {
-    background: rgba(white, 25%);
+    background: rgba($white, 25%);
   }
 
   .card__image {

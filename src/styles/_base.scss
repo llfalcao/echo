@@ -20,11 +20,9 @@ body::before {
   position: absolute;
   z-index: -1;
   background: #3f4d54;
-  background: radial-gradient(
-      at center center,
+  background: radial-gradient(at center center,
       rgba(34, 34, 34, 0.548) 0%,
-      rgba(70, 0, 70, 0.377) 100%
-    ),
+      rgba(70, 0, 70, 0.377) 100%),
     url("../assets/images/bg.webp") no-repeat;
   background-position: center;
   background-size: cover;

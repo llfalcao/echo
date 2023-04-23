@@ -21,13 +21,15 @@ main h2 {
 }
 
 .featured {
-  background: #1a1a1a8c;
-  padding: 20px;
+  padding: 20px 0;
   border-radius: 12px;
+  margin: 20px 0;
 }
 
 .featured__title {
-  margin-left: 15px;
+  padding-left: 15px;
+  font-weight: 500;
+  border-left: 3px solid #5555df;
 }
 
 .featured__cards {
@@ -38,7 +40,7 @@ main h2 {
 
 .card {
   position: relative;
-  width: 165px;
+  // width: 165px;
   border-radius: 10px;
   overflow: hidden;
   padding: 15px;
@@ -57,7 +59,9 @@ main h2 {
 }
 
 .card__image {
-  width: 100%;
+
+  max-width: 100%;
+  height: auto;
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 5px;
