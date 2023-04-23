@@ -1,23 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
 
 const getPlaylist = async (id: string) => {
   try {
     const client = await clientPromise;
     const db = client.db();
-    const objectId = new ObjectId(id);
     const data = await db
       .collection("playlists")
       .aggregate([
         {
           $match: {
-            _id: objectId,
+            id,
           },
         },
         {
           $project: {
-            _id: 1,
+            _id: 0,
             id: 1,
             title: 1,
             cover_image: 1,
@@ -32,7 +30,7 @@ const getPlaylist = async (id: string) => {
             pipeline: [
               {
                 $project: {
-                  _id: 1,
+                  _id: 0,
                   id: 1,
                   yid: 1,
                   title: 1,
@@ -44,11 +42,38 @@ const getPlaylist = async (id: string) => {
             as: "tracks",
           },
         },
+        {
+          $limit: 1,
+        },
       ])
-      .toArray();
+      .next();
 
-    console.log("# out", data);
-    return data[0];
+    return data;
+  } catch (e) {
+    console.error(e);
+    return {};
+  }
+};
+
+const getPlaylistMetadata = async (id: string) => {
+  try {
+    const client = await clientPromise;
+    const db = client.db();
+    const data = await db.collection("playlists").findOne(
+      {
+        id,
+      },
+      {
+        projection: {
+          _id: 0,
+          id: 1,
+          title: 1,
+          cover_image: 1,
+        },
+      },
+    );
+
+    return data;
   } catch (e) {
     console.error(e);
     return {};
@@ -57,11 +82,16 @@ const getPlaylist = async (id: string) => {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse, // <Playlist>
+  res: NextApiResponse,
 ) {
-  const { id } = req.query;
+  const { id, minimal } = req.query;
 
   if (typeof id === "string") {
+    if (minimal === "1") {
+      const playlist = await getPlaylistMetadata(id);
+      return res.status(200).json(playlist);
+    }
+
     const playlist = await getPlaylist(id);
     res.status(200).json(playlist);
   } else {
