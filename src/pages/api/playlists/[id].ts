@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "@/lib/mongodb";
 
-const getPlaylist = async (id: string) => {
+export const getPlaylist = async (id: string) => {
   try {
     const client = await clientPromise;
     const db = client.db();
@@ -55,7 +55,7 @@ const getPlaylist = async (id: string) => {
   }
 };
 
-const getPlaylistMetadata = async (id: string) => {
+export const getPlaylistMetadata = async (id: string) => {
   try {
     const client = await clientPromise;
     const db = client.db();

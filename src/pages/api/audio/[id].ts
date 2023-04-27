@@ -1,11 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import ytdl from "ytdl-core";
+import distubeYtdl from "@distube/ytdl-core";
 
 const fetchTrack = async (yid: string) => {
   const url = `https://www.youtube.com/watch?v=${yid}`;
-  const { formats } = await ytdl.getInfo(url);
-  const format = ytdl.chooseFormat(formats, { filter: "audioonly" });
-  return format?.url;
+  try {
+    const { formats } = await ytdl.getInfo(url);
+    const format = ytdl.chooseFormat(formats, { filter: "audioonly" });
+    return format?.url;
+  } catch (error) {
+    console.error("# ytdl-core failed, using @distube/ytdl-core", error);
+    const { formats } = await distubeYtdl.getInfo(url);
+    const format = distubeYtdl.chooseFormat(formats, { filter: "audioonly" });
+    return format?.url;
+  }
 };
 
 export default async function handler(
