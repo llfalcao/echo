@@ -20,8 +20,7 @@ export default function Card({
   playlistId,
   index = 0,
 }: Props) {
-  const { player, playing, loaded, onPlay, updatePlaylist, setPlayer } =
-    useAudioPlayer();
+  const { player, playing, onPlay, updatePlaylist } = useAudioPlayer();
   const { id, cover_image: imageSrc, title } = data;
 
   const handlePlay = () => {
@@ -30,7 +29,7 @@ export default function Card({
         return onPlay();
       }
 
-      updatePlaylist(data.id, undefined, true);
+      updatePlaylist(data.id, 0, true);
     }
 
     if (type === "track" && playlistId) {
