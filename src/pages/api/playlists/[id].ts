@@ -89,11 +89,11 @@ export default async function handler(
   if (typeof id === "string") {
     if (minimal === "1") {
       const playlist = await getPlaylistMetadata(id);
-      return res.status(200).json(playlist);
+      return res.json(playlist);
     }
 
     const playlist = await getPlaylist(id);
-    res.status(200).json(playlist);
+    res.json(playlist);
   } else {
     res.status(404).send("404 Not Found");
   }
