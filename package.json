@@ -12,7 +12,6 @@
     "@distube/ytdl-core": "^4.11.9",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
-    "@next/font": "13.1.4",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
