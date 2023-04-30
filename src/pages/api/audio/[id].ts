@@ -7,11 +7,13 @@ const fetchTrack = async (yid: string) => {
   try {
     const { formats } = await ytdl.getInfo(url);
     const format = ytdl.chooseFormat(formats, { filter: "audioonly" });
+
     return format?.url;
   } catch (error) {
     console.error("# ytdl-core failed, using @distube/ytdl-core", error);
     const { formats } = await distubeYtdl.getInfo(url);
     const format = distubeYtdl.chooseFormat(formats, { filter: "audioonly" });
+
     return format?.url;
   }
 };
