@@ -1,17 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/lib/mongodb";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/utils/db";
 
 const getTrack = async (id: string) => {
   try {
-    const client = await clientPromise;
-    const db = client.db();
-    const data = await db
-      .collection("tracks")
-      .findOne({ id }, { projection: { _id: 0 } });
+    const trackRef = doc(db, "tracks", id);
+    const track = await getDoc(trackRef);
 
-    return data;
-  } catch (e) {
-    console.error(e);
+    if (track.exists()) {
+      return { id, ...track.data() };
+    } else {
+      console.log(`[API] Track ${id} not found`);
+      return {};
+    }
+  } catch (error) {
+    console.error("[API] Error getting track:", error);
     return {};
   }
 };

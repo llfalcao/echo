@@ -1,7 +1,17 @@
 import Head from "next/head";
 import { NextPage } from "next";
 import Featured from "@/components/Featured";
-import { getPlaylist, getPlaylistMetadata } from "./api/playlists/[id]";
+
+import {
+  DocumentData,
+  DocumentReference,
+  doc,
+  getDoc,
+} from "firebase/firestore";
+
+import { Timestamp } from "firebase/firestore";
+import { db } from "@/utils/db";
+import { getPlaylist } from "./api/playlists/[id]";
 
 export interface FeaturedContent {
   title?: string;
@@ -35,52 +45,40 @@ const Home: NextPage<HomeProps> = ({ featuredContent = [] }) => {
 };
 
 export async function getServerSideProps() {
+  const playlistsToFetch = ["Ofa4kLSbRe90LZCf9uS1"];
+
   const featuredContent: FeaturedContent[] = [
     {
       title: "Trending (playlists)",
-      content: { type: "playlist", ids: ["9vQBpbcmSqaPz59ZEurUa"], data: [] },
+      content: { type: "playlist", ids: ["Ofa4kLSbRe90LZCf9uS1"], data: [] },
       imagePriority: true,
     },
     {
       title: "Famously Unknown (songs)",
-      content: { type: "track", ids: ["9vQBpbcmSqaPz59ZEurUa"], data: [] },
+      content: { type: "track", ids: ["Ofa4kLSbRe90LZCf9uS1"], data: [] },
       imagePriority: true,
     },
   ];
 
   const fetchData = async () => {
-    try {
-      const promises = featuredContent.map(async (item) => {
-        const { ids } = item.content;
-        const data = await Promise.all(
-          ids.map(async (id) => {
-            const minimal =
-              item.content.type === "playlist" ? "?minimal=1" : "";
+    const playlists = await Promise.all(
+      playlistsToFetch.map(async (id) => await getPlaylist(id)),
+    );
 
-            if (minimal) {
-              return await getPlaylistMetadata(id);
-            }
-
-            return await getPlaylist(id);
-          }),
-        );
-
-        item.content.data = data as Playlist[];
-        return item;
-      });
-
-      return await Promise.all(promises);
-    } catch (error) {
-      console.error("# error");
-      return { props: {} };
-    }
+    return playlists.filter((playlist) => playlist !== null) as Playlist[];
   };
 
-  const updatedContent = await fetchData();
+  const playlistData = await fetchData();
+
+  featuredContent.forEach((item) => {
+    item.content.data = playlistData.filter((playlist) =>
+      item.content.ids.some((id) => id === playlist.id),
+    );
+  });
 
   return {
     props: {
-      featuredContent: updatedContent,
+      featuredContent,
     },
   };
 }
