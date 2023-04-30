@@ -1,4 +1,4 @@
-import { ShuffleRounded } from "@material-ui/icons";
+import ShuffleRounded from "@material-ui/icons/ShuffleRounded";
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 export default function Shuffle() {

@@ -1,4 +1,4 @@
-import { PlayArrowRounded } from "@material-ui/icons";
+import PlayArrowRounded from "@material-ui/icons/PlayArrowRounded";
 import { MouseEventHandler } from "react";
 
 interface Props {

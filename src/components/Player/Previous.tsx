@@ -1,4 +1,4 @@
-import { SkipPreviousRounded } from "@material-ui/icons";
+import SkipPreviousRounded from "@material-ui/icons/SkipPreviousRounded";
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 export default function Previous() {
