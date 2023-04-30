@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Favorite, Home, Search } from "@material-ui/icons";
-import { DarkMode } from "../Icons/Icons";
-import { Brightness7 as LightMode } from "@material-ui/icons";
+import Favorite from "@material-ui/icons/Favorite";
+import Home from "@material-ui/icons/Home";
+import Search from "@material-ui/icons/Search";
+import LightMode from "@material-ui/icons/Brightness7";
 
 import logo from "../../assets/images/logo.png";
 
@@ -68,7 +69,14 @@ export default function Sidebar() {
         >
           <div className="themeToggle__circle">
             {theme === "dark" ? (
-              <DarkMode className="themeToggle__icon themeToggle__icon--dark" />
+              <svg
+                focusable="false"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="themeToggle__icon themeToggle__icon--dark"
+              >
+                <use href="/sprites.svg#DarkMode" />
+              </svg>
             ) : (
               <LightMode className="themeToggle__icon themeToggle__icon--light" />
             )}

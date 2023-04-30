@@ -1,4 +1,4 @@
-import { Pause as PauseBtn } from "@material-ui/icons";
+import PauseBtn from "@material-ui/icons/Pause";
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 interface Props {

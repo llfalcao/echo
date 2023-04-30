@@ -1,4 +1,5 @@
-import { RepeatOneRounded, RepeatRounded } from "@material-ui/icons";
+import RepeatOneRounded from "@material-ui/icons/RepeatOneRounded";
+import RepeatRounded from "@material-ui/icons/RepeatRounded";
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 export default function Repeat() {
