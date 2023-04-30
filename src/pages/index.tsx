@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Featured from "@/components/Featured";
 
 import {
@@ -12,6 +12,7 @@ import {
 import { Timestamp } from "firebase/firestore";
 import { db } from "@/utils/db";
 import { getPlaylist } from "./api/playlists/[id]";
+import { AppContext } from "next/app";
 
 export interface FeaturedContent {
   title?: string;
@@ -44,18 +45,25 @@ const Home: NextPage<HomeProps> = ({ featuredContent = [] }) => {
   );
 };
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps<{
+  featuredContent: FeaturedContent[];
+}> = async ({ res }) => {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59",
+  );
+
   const playlistsToFetch = ["Ofa4kLSbRe90LZCf9uS1"];
 
   const featuredContent: FeaturedContent[] = [
     {
-      title: "Trending (playlists)",
-      content: { type: "playlist", ids: ["Ofa4kLSbRe90LZCf9uS1"], data: [] },
+      title: "Top 10",
+      content: { type: "track", ids: ["Ofa4kLSbRe90LZCf9uS1"], data: [] },
       imagePriority: true,
     },
     {
-      title: "Famously Unknown (songs)",
-      content: { type: "track", ids: ["Ofa4kLSbRe90LZCf9uS1"], data: [] },
+      title: "By genre",
+      content: { type: "playlist", ids: ["Ofa4kLSbRe90LZCf9uS1"], data: [] },
       imagePriority: true,
     },
   ];
@@ -81,6 +89,6 @@ export async function getServerSideProps() {
       featuredContent,
     },
   };
-}
+};
 
 export default Home;
