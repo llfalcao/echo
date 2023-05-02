@@ -13,6 +13,7 @@ import { Timestamp } from "firebase/firestore";
 import { db } from "@/utils/db";
 import { getPlaylist } from "./api/playlists/[id]";
 import { AppContext } from "next/app";
+import { useEffect, useState } from "react";
 
 export interface FeaturedContent {
   title?: string;
@@ -23,11 +24,53 @@ export interface FeaturedContent {
   };
   imagePriority?: boolean;
 }
-interface HomeProps {
-  featuredContent: FeaturedContent[];
-}
 
-const Home: NextPage<HomeProps> = ({ featuredContent = [] }) => {
+const Home: NextPage = () => {
+  const [data, setData] = useState<FeaturedContent[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const playlistsToFetch = ["Ofa4kLSbRe90LZCf9uS1"];
+
+      const featuredContent: FeaturedContent[] = [
+        {
+          title: "Top 10",
+          content: { type: "track", ids: ["Ofa4kLSbRe90LZCf9uS1"], data: [] },
+          imagePriority: true,
+        },
+        {
+          title: "By genre",
+          content: {
+            type: "playlist",
+            ids: ["Ofa4kLSbRe90LZCf9uS1"],
+            data: [],
+          },
+          imagePriority: true,
+        },
+      ];
+
+      const fetchData = async () => {
+        const playlists = await Promise.all(
+          playlistsToFetch.map(async (id) => await getPlaylist(id)),
+        );
+
+        return playlists.filter((playlist) => playlist !== null) as Playlist[];
+      };
+
+      const playlistData = await fetchData();
+
+      featuredContent.forEach((item) => {
+        item.content.data = playlistData.filter((playlist) =>
+          item.content.ids.some((id) => id === playlist.id),
+        );
+      });
+
+      setData(featuredContent);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <Head>
@@ -38,57 +81,11 @@ const Home: NextPage<HomeProps> = ({ featuredContent = [] }) => {
 
       <h1>Home</h1>
 
-      {featuredContent.map((item) => (
+      {data.map((item) => (
         <Featured key={item.title} {...item} />
       ))}
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps<{
-  featuredContent: FeaturedContent[];
-}> = async ({ res }) => {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59",
-  );
-
-  const playlistsToFetch = ["Ofa4kLSbRe90LZCf9uS1"];
-
-  const featuredContent: FeaturedContent[] = [
-    {
-      title: "Top 10",
-      content: { type: "track", ids: ["Ofa4kLSbRe90LZCf9uS1"], data: [] },
-      imagePriority: true,
-    },
-    {
-      title: "By genre",
-      content: { type: "playlist", ids: ["Ofa4kLSbRe90LZCf9uS1"], data: [] },
-      imagePriority: true,
-    },
-  ];
-
-  const fetchData = async () => {
-    const playlists = await Promise.all(
-      playlistsToFetch.map(async (id) => await getPlaylist(id)),
-    );
-
-    return playlists.filter((playlist) => playlist !== null) as Playlist[];
-  };
-
-  const playlistData = await fetchData();
-
-  featuredContent.forEach((item) => {
-    item.content.data = playlistData.filter((playlist) =>
-      item.content.ids.some((id) => id === playlist.id),
-    );
-  });
-
-  return {
-    props: {
-      featuredContent,
-    },
-  };
 };
 
 export default Home;
