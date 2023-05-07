@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useAudioPlayer from "@/hooks/useAudioPlayer";
-import { useEffect } from "react";
+import Image from "next/image";
 
 import Shuffle from "./Shuffle";
 import Previous from "./Previous";
@@ -12,23 +12,29 @@ import ProgressBar from "./ProgressBar";
 import Volume from "./Volume";
 
 export default function Player() {
-  const { audio, src, playing, player, setPlayer, onPlay } = useAudioPlayer();
-
-  useEffect(() => {
-    // TODO: load the last played playlist
-  }, []);
-
-  const testPlaylist = (id: number) => {
-    fetch(`/api/playlists/${id}`)
-      .then((res) => res.json())
-      .then((data) => setPlayer({ ...player, playlist: data }));
-  };
+  const { audio, src, playing, player, onPlay } = useAudioPlayer();
+  const { playlist, current } = player;
 
   return (
     <div className="player">
       <div className="song">
-        <button onClick={() => testPlaylist(1)}>start 1</button>
-        <button onClick={() => testPlaylist(2)}>start 2</button>
+        {player.playlist?.tracks.length ? (
+          <>
+            <Image
+              className="song__cover"
+              src={playlist?.tracks[current].cover_image ?? ""}
+              alt="Song Cover Image"
+              width={750}
+              height={750}
+            />
+            <div>
+              <p className="song__title">
+                {playlist?.tracks[current].title ?? ""}
+              </p>
+              <p className="song__artist">Unknown Artist</p>
+            </div>
+          </>
+        ) : null}
       </div>
       <audio id="audio" ref={audio} />
 
