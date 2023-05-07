@@ -19,8 +19,8 @@
 }
 
 .song__cover {
-  width: 84px;
-  aspect-ratio: 1;
+  max-width: 84px;
+  height: auto;
 
   & img {
     object-fit: cover;
@@ -148,4 +148,10 @@
 
 .volume {
   flex: 1;
+  display: flex;
+  justify-content: right;
+}
+
+.volume__btn {
+  @include prevNextBtn(24px);
 }
