@@ -1,19 +1,8 @@
+import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import { GetServerSideProps, NextPage } from "next";
-import Featured from "@/components/Featured";
-
-import {
-  DocumentData,
-  DocumentReference,
-  doc,
-  getDoc,
-} from "firebase/firestore";
-
-import { Timestamp } from "firebase/firestore";
-import { db } from "@/utils/db";
-import { getPlaylist } from "./api/playlists/[id]";
-import { AppContext } from "next/app";
 import { useEffect, useState } from "react";
+import Featured from "@/components/Featured";
+import { usePlaylists } from "@/hooks/usePlaylists";
 
 export interface FeaturedContent {
   title?: string;
@@ -25,51 +14,37 @@ export interface FeaturedContent {
   imagePriority?: boolean;
 }
 
-const Home: NextPage = () => {
-  const [data, setData] = useState<FeaturedContent[]>([]);
+interface Props {
+  playlistIds: string[];
+  content: FeaturedContent[];
+}
+
+const Home: NextPage<Props> = ({ playlistIds, content }) => {
+  const [data, setData] = useState<FeaturedContent[]>(content);
+  const { playlists } = usePlaylists(playlistIds);
+  const currentHour = new Date().getHours();
+  const welcomeMessage =
+    currentHour > 4 && currentHour < 12
+      ? "Good morning"
+      : currentHour < 18
+      ? "Good afternoon"
+      : "Good evening";
 
   useEffect(() => {
-    const fetchData = async () => {
-      const playlistsToFetch = ["Ofa4kLSbRe90LZCf9uS1"];
+    if (!playlists) return;
 
-      const featuredContent: FeaturedContent[] = [
-        {
-          title: "Top 10",
-          content: { type: "track", ids: ["Ofa4kLSbRe90LZCf9uS1"], data: [] },
-          imagePriority: true,
+    setData(
+      content.map((item) => ({
+        ...item,
+        content: {
+          ...item.content,
+          data: playlists.filter((playlist) =>
+            item.content.ids.some((id) => id === playlist.id),
+          ),
         },
-        {
-          title: "By genre",
-          content: {
-            type: "playlist",
-            ids: ["Ofa4kLSbRe90LZCf9uS1"],
-            data: [],
-          },
-          imagePriority: true,
-        },
-      ];
-
-      const fetchData = async () => {
-        const playlists = await Promise.all(
-          playlistsToFetch.map(async (id) => await getPlaylist(id)),
-        );
-
-        return playlists.filter((playlist) => playlist !== null) as Playlist[];
-      };
-
-      const playlistData = await fetchData();
-
-      featuredContent.forEach((item) => {
-        item.content.data = playlistData.filter((playlist) =>
-          item.content.ids.some((id) => id === playlist.id),
-        );
-      });
-
-      setData(featuredContent);
-    };
-
-    fetchData();
-  }, []);
+      })),
+    );
+  }, [playlists, content]);
 
   return (
     <>
@@ -79,13 +54,45 @@ const Home: NextPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <h1>Home</h1>
+      <h1>{welcomeMessage}!</h1>
 
       {data.map((item) => (
         <Featured key={item.title} {...item} />
       ))}
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const playlistIds = process.env.HOME_PLAYLISTS?.split(",") ?? [];
+
+  const content: FeaturedContent[] = [
+    {
+      title: "Top 10",
+      content: {
+        type: "track",
+        ids: process.env.HOME_FEATURED_PLAYLIST_1?.split(",") ?? [],
+        data: [],
+      },
+      imagePriority: true,
+    },
+    {
+      title: "By genre",
+      content: {
+        type: "playlist",
+        ids: process.env.HOME_FEATURED_PLAYLIST_1?.split(",") ?? [],
+        data: [],
+      },
+      imagePriority: true,
+    },
+  ];
+
+  return {
+    props: {
+      playlistIds,
+      content,
+    },
+  };
 };
 
 export default Home;

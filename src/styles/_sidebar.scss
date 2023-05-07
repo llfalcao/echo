@@ -6,7 +6,6 @@
   display: flex;
   flex-direction: column;
   user-select: none;
-  border-right: 1px solid $gray;
 }
 
 .sidebar__logo {
@@ -37,7 +36,7 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  font-weight: 500;
+  font-weight: 600;
   color: $white-90;
   margin: 10px 0;
   border-radius: 5px;

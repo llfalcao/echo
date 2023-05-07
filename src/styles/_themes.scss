@@ -18,7 +18,7 @@
 
   // Sidebar
   .sidebar {
-    background: #ebe3ff;
+    background: #a8a8d9f7;
   }
 
   .sidebar__logoText {
@@ -29,7 +29,12 @@
     color: $black-90;
 
     &:hover {
-      color: $black;
+      background: rgb(236 236 236 / 52%);
+      color: $black-90;
+
+      svg {
+        fill: #5555df;
+      }
     }
   }
 

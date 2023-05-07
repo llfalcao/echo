@@ -28,12 +28,12 @@ export default function Sidebar() {
 
   return (
     <div className="sidebar">
-      <div className="sidebar__logo">
+      <Link href="/" className="sidebar__logo">
         <div className="sidebar__logoImage">
           <Image src={logo} alt="" width={25} />
         </div>
         <p className="sidebar__logoText">re:tune</p>
-      </div>
+      </Link>
 
       <nav className="menu">
         <ul>
