@@ -19,7 +19,7 @@ export default function Featured({
                 imagePriority={imagePriority}
               />
             ))
-          : content.data[0].tracks.map((item, index) => (
+          : content.data[0]?.tracks.map((item, index) => (
               <Card
                 key={item.id}
                 playlistId={content.data[0].id}
