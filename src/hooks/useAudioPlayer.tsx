@@ -140,6 +140,21 @@ const AudioPlayer = () => {
     }
   };
 
+  const updateBackground = () => {
+    const background = getComputedStyle(document.body).background;
+    const urlStart = background.indexOf('("') + 2;
+    const urlEnd = background.indexOf('")');
+    const url = background.substring(urlStart, urlEnd);
+    const { playlist, current } = player;
+
+    if (playlist?.tracks[current].cover_image) {
+      document.body.style.background = background.replace(
+        url,
+        playlist?.tracks[current].cover_image as string,
+      );
+    }
+  };
+
   useEffect(() => {
     if (audio.current && typeof clickedTime === "number") {
       audio.current.currentTime = clickedTime;
@@ -171,6 +186,8 @@ const AudioPlayer = () => {
       if (playing) {
         audio.current.play();
       }
+
+      updateBackground();
     }
   }, [src]);
 
