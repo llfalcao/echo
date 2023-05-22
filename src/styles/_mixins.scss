@@ -24,6 +24,10 @@
     background: $hoverPurple;
   }
 
+  &:focus {
+    opacity: 1;
+  }
+
   &:active {
     transform: scale(0.97);
   }

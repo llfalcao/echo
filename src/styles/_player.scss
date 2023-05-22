@@ -1,6 +1,8 @@
 .player {
-  position: fixed;
+  position: sticky;
   bottom: 0;
+  grid-row-start: 3;
+  grid-column: span 3;
   display: flex;
   align-items: center;
   width: 100%;

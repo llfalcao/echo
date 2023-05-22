@@ -2,10 +2,16 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: background-color 0.15s ease-in;
+}
+
+body,
+input,
+button,
+a {
   font-family: "CircularStd", "sans-serif";
   font-weight: 400;
   text-decoration: none;
-  transition: background-color 0.15s ease-in;
 }
 
 body {
@@ -63,7 +69,9 @@ a {
 
 #root {
   height: 100vh;
-  display: flex;
+  display: grid;
+  grid-template-columns: $sidebarWidth 1fr;
+  grid-template-rows: $headerHeight 1fr $footerHeight;
 }
 
 // Scrollbar
