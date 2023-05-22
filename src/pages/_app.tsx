@@ -16,13 +16,13 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <Sidebar />
+      <Player />
       <div className="container">
         <Header />
         <main>
           <Component {...pageProps} />
         </main>
       </div>
-      <Player />
     </div>
   );
 }

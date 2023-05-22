@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Favorite from "@material-ui/icons/Favorite";
-import Home from "@material-ui/icons/Home";
-import Search from "@material-ui/icons/Search";
+import Home from "@material-ui/icons/HomeRounded";
+import Favorite from "@material-ui/icons/FavoriteRounded";
+import Search from "@material-ui/icons/SearchRounded";
+import Forum from "@material-ui/icons/ForumRounded";
 import LightMode from "@material-ui/icons/Brightness7";
 
 import logo from "../../assets/images/logo.png";
+import { useRouter } from "next/router";
 
 export default function Sidebar() {
   const [theme, setTheme] = useState("dark");
+  const { pathname } = useRouter();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -26,6 +29,10 @@ export default function Sidebar() {
     });
   };
 
+  const getMenuItemClassName = (path: string) => {
+    return path === pathname ? "menu__item menu__item--active" : "menu__item";
+  };
+
   return (
     <div className="sidebar">
       <Link href="/" className="sidebar__logo">
@@ -37,22 +44,28 @@ export default function Sidebar() {
 
       <nav className="menu">
         <ul>
-          <li className="menu__item">
+          <li className={getMenuItemClassName("/")}>
             <Link href="/" className="menu__link">
               <Home />
               Home
             </Link>
           </li>
-          <li className="menu__item">
+          <li className={getMenuItemClassName("/search")}>
             <Link href="/search" className="menu__link">
               <Search />
               Search
             </Link>
           </li>
-          <li className="menu__item">
+          <li className={getMenuItemClassName("/favorites")}>
             <Link href="/favorites" className="menu__link">
               <Favorite />
               Favorites
+            </Link>
+          </li>
+          <li className={getMenuItemClassName("/discussions")}>
+            <Link href="/discussions" className="menu__link">
+              <Forum />
+              Discussions
             </Link>
           </li>
         </ul>

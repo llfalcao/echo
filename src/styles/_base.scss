@@ -2,40 +2,45 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "CircularStd", "sans-serif";
-  font-weight: 400;
-  text-decoration: none;
   transition: background-color 0.15s ease-in;
 }
 
+body,
+input,
+button,
+a {
+  font-family: "CircularStd", "sans-serif";
+  font-weight: 400;
+  text-decoration: none;
+}
+
 body {
-  background-color: $black;
+  background-color: #000000;
   color: var(--fg);
   position: relative;
   max-width: 100vw;
+  background: url("../assets/images/bg.webp") no-repeat;
+  background-image: smooth;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(16px);
+  transition: background 1s;
 }
 
 body::before {
   content: "";
   position: absolute;
   z-index: -1;
-  background: #3f4d54;
-  background: radial-gradient(
-      at center center,
-      rgba(34, 34, 34, 0.548) 0%,
-      rgba(70, 0, 70, 0.377) 100%
-    ),
-    url("../assets/images/bg.webp") no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
   width: 100%;
   height: 100%;
-  -webkit-filter: blur(12px);
-  -moz-filter: blur(12px);
-  -o-filter: blur(12px);
-  -ms-filter: blur(12px);
-  filter: blur(12px);
+  background: radial-gradient(
+    at center center,
+    rgba(34, 34, 34, 0.548) 0%,
+    rgba(70, 0, 70, 0.377) 100%
+  );
 }
 
 ul,
@@ -64,7 +69,9 @@ a {
 
 #root {
   height: 100vh;
-  display: flex;
+  display: grid;
+  grid-template-columns: $sidebarWidth 1fr;
+  grid-template-rows: $headerHeight 1fr $footerHeight;
 }
 
 // Scrollbar
