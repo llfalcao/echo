@@ -32,6 +32,11 @@
   font-family: "K2D", "CircularStd", "Inter", sans-serif;
 }
 
+%activeMenuItem {
+  background: rgb(126 148 219 / 15%);
+  color: $white;
+}
+
 .menu__link {
   display: flex;
   align-items: center;
@@ -51,14 +56,23 @@
   }
 
   &:hover {
-    background: rgb(126 148 219 / 15%);
-    color: $white;
+    @extend %activeMenuItem;
     transition: $hover;
   }
 
   &:focus {
     outline: 2px solid $white;
     transition: $focus;
+  }
+
+  &:active {
+    outline: 2px solid transparent;
+  }
+}
+
+.menu__item--active {
+  .menu__link {
+    @extend %activeMenuItem;
   }
 }
 
