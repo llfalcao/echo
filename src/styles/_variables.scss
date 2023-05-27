@@ -16,3 +16,9 @@ $gray: #c0c0c033;
 $headerHeight: 50px;
 $sidebarWidth: 220px;
 $footerHeight: 120px;
+
+// Placeholders
+%activeMenuItem {
+  background: rgb(126 148 219 / 15%);
+  color: $white;
+}

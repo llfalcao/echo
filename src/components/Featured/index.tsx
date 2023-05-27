@@ -1,11 +1,13 @@
 import Card from "../Card";
 import { FeaturedContent } from "@/pages";
 
+interface Props extends FeaturedContent {}
+
 export default function Featured({
   title,
   content,
   imagePriority = false,
-}: FeaturedContent) {
+}: Props) {
   return (
     <div className="featured">
       {title && <h2 className="featured__title">{title}</h2>}

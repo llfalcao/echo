@@ -25,16 +25,25 @@
     color: $purple;
   }
 
+  %activeMenuItem {
+    background: rgb(236 236 236 / 52%);
+    color: $black-90;
+  }
+
   .menu__link {
     color: $black-90;
 
     &:hover {
-      background: rgb(236 236 236 / 52%);
-      color: $black-90;
+      @extend %activeMenuItem;
+      transition: $hover;
+    }
 
-      svg {
-        fill: #5555df;
-      }
+    &:focus-visible {
+      outline: 2px solid #00000099;
+    }
+
+    &:active {
+      outline: 2px solid transparent !important;
     }
   }
 
