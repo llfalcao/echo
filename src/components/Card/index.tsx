@@ -49,16 +49,15 @@ export default function Card({
       <Image
         src={imageSrc ?? `https://picsum.photos/135/135?sig=${id}`}
         alt={title}
-        className={`card__image ${
-          !imageSrc ? "card__image--loading" : ""
-        }`.trim()}
+        className="card__image card__image--loading"
         width="150"
         height="150"
         loading={imagePriority ? "eager" : "lazy"}
         quality={100}
         priority={imagePriority}
-        placeholder="blur"
-        blurDataURL={`data:image/svg+xml;base64,${getPlaceholder(150, 150)}`}
+        onLoad={({ currentTarget }) =>
+          currentTarget.classList.remove("card__image--loading")
+        }
       />
       <p className="card__title">{title || ""}</p>
       {playing &&
