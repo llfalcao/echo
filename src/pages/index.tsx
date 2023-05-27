@@ -26,7 +26,7 @@ const Home: NextPage<Props> = ({ playlistIds, content }) => {
   const welcomeMessage =
     currentHour > 4 && currentHour < 12
       ? "Good morning"
-      : currentHour < 18
+      : currentHour > 12 && currentHour < 18
       ? "Good afternoon"
       : "Good evening";
 
