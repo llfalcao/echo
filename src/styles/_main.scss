@@ -36,6 +36,10 @@ main h2 {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+
+  &:empty {
+    @include skeleton(217px);
+  }
 }
 
 .card {
