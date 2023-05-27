@@ -22,13 +22,18 @@ interface Props {
 const Home: NextPage<Props> = ({ playlistIds, content }) => {
   const [data, setData] = useState<FeaturedContent[]>(content);
   const { playlists } = usePlaylists(playlistIds);
-  const currentHour = new Date().getHours();
-  const welcomeMessage =
-    currentHour > 4 && currentHour < 12
-      ? "Good morning"
-      : currentHour > 12 && currentHour < 18
-      ? "Good afternoon"
-      : "Good evening";
+  const [welcomeMessage, setWelcomeMessage] = useState("");
+
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+    setWelcomeMessage(
+      currentHour > 4 && currentHour < 12
+        ? "Good morning"
+        : currentHour >= 12 && currentHour < 18
+        ? "Good afternoon"
+        : "Good evening",
+    );
+  }, []);
 
   useEffect(() => {
     if (!playlists) return;
