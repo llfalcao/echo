@@ -202,6 +202,11 @@ const AudioPlayer = () => {
       const response = await fetch(
         `/api/audio/${player.playlist?.tracks[player.current].yid}`,
       );
+
+      if (!response.ok) {
+        return onNext();
+      }
+
       const data = await response.json();
       setSrc(data.src);
     };
