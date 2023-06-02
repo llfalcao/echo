@@ -48,6 +48,11 @@
   }
 
   // Theme Toggle
+  .themeToggle {
+    background: rgb(255 255 255 / 34%);
+    border: 1px solid $gray;
+  }
+
   .themeToggle__switch {
     padding: 4px;
     background-color: #1983ef;

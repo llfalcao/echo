@@ -52,7 +52,7 @@ main h2 {
   transition: background 0.15s ease-in;
 
   &:hover {
-    background: #0d0d0d9e;
+    background: rgb(255 255 255 / 6%);
 
     .card__playBtn,
     .card__pauseBtn {

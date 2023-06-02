@@ -1,6 +1,9 @@
 .sidebar {
   padding: 14px;
-  background: #070707;
+  background: linear-gradient(225deg, #0e1217, #0d070e),
+    linear-gradient(135deg, #0f1017, #0c070e);
+  background-blend-mode: luminosity;
+  border-right: 1px solid $gray;
   min-width: $sidebarWidth;
   height: calc(100vh - #{$footerHeight});
   display: flex;
@@ -29,7 +32,7 @@
   font-size: 20px;
   font-weight: 500;
   color: $lightPurple;
-  font-family: "K2D", "CircularStd", "Inter", sans-serif;
+  font-family: "CircularStd", "Inter", sans-serif;
 }
 
 .menu__link {
