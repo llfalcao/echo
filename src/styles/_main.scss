@@ -83,12 +83,14 @@ main h2 {
   font-weight: 500;
   color: $white;
   cursor: default;
+  max-width: 150px;
+  word-break: break-word;
 }
 
 .card__playBtn {
   @include playBtn(40px);
   position: absolute;
-  bottom: 59px;
+  top: 120px;
   right: 20px;
   z-index: 0;
   opacity: 0;
