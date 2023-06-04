@@ -141,18 +141,26 @@ const AudioPlayer = () => {
   };
 
   const updateBackground = () => {
-    const background = getComputedStyle(document.body).background;
-    const urlStart = background.indexOf('("') + 2;
-    const urlEnd = background.indexOf('")');
-    const url = background.substring(urlStart, urlEnd);
+    const { backgroundImage } = getComputedStyle(document.body);
+    const urlStart = backgroundImage.indexOf('("') + 2;
+    const urlEnd = backgroundImage.indexOf('")');
+    const currentUrl = backgroundImage.substring(urlStart, urlEnd);
     const { playlist, current } = player;
 
-    if (playlist?.tracks[current].cover_image) {
-      document.body.style.background = background.replace(
-        url,
-        playlist?.tracks[current].cover_image as string,
+    // Preload next image
+    const image = new Image();
+    image.src = playlist?.tracks[current].cover_image ?? currentUrl;
+
+    const onImageLoad = () => {
+      document.body.style.backgroundImage = backgroundImage.replace(
+        currentUrl,
+        image.src,
       );
-    }
+
+      image.removeEventListener("load", onImageLoad);
+    };
+
+    image.addEventListener("load", onImageLoad);
   };
 
   useEffect(() => {

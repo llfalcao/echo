@@ -5,10 +5,10 @@
   background-blend-mode: luminosity;
   border-right: 1px solid $gray;
   min-width: $sidebarWidth;
-  height: calc(100vh - #{$footerHeight});
   display: flex;
   flex-direction: column;
   user-select: none;
+  overflow: hidden;
 }
 
 .sidebar__logo {
@@ -55,12 +55,11 @@
 
   &:hover {
     @extend %activeMenuItem;
-    transition: $hover;
   }
 
   &:focus-visible {
     outline: 2px solid $white;
-    transition: $focus;
+    @include transition(outline, 0.15s, ease-in);
   }
 
   &:active {
@@ -85,6 +84,7 @@
   align-items: center;
   border-radius: 5px;
   background-color: rgba(60, 65, 67, 0.2);
+  border: 1px solid $gray;
   padding: 10px;
 }
 
@@ -111,10 +111,10 @@
   height: 18px;
   aspect-ratio: 1;
   margin-left: auto;
-  transition: transform 0.15s cubic-bezier(0.41, 0.39, 0.57, 1.28);
   display: flex;
   justify-content: center;
   align-items: center;
+  @include transition(transform, 0.15s, cubic-bezier(0.41, 0.39, 0.57, 1.28));
 
   .themeToggle__icon {
     width: 16px;

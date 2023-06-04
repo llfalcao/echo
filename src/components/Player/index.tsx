@@ -24,8 +24,8 @@ export default function Player() {
               className="song__cover"
               src={playlist?.tracks[current].cover_image ?? ""}
               alt="Song Cover Image"
-              width={750}
-              height={750}
+              width={64}
+              height={64}
             />
             <div>
               <p className="song__title">

@@ -23,7 +23,7 @@ main h2 {
 .featured {
   padding: 20px 0;
   border-radius: 12px;
-  margin: 20px 0;
+  margin: 0 0 20px;
 }
 
 .featured__title {
@@ -49,10 +49,10 @@ main h2 {
   padding: 15px;
   display: flex;
   flex-direction: column;
-  transition: background 0.15s ease-in;
+  @include transition(background-color, 0.15s, ease-in);
 
   &:hover {
-    background: rgb(255 255 255 / 6%);
+    background-color: rgb(255 255 255 / 6%);
 
     .card__playBtn,
     .card__pauseBtn {
@@ -69,7 +69,7 @@ main h2 {
   border-radius: 5px;
   box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.5);
   opacity: 1;
-  transition: 0.15s ease-in;
+  @include transition(opacity, 0.15s, ease-in);
 }
 
 .card__image--loading {
