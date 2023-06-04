@@ -20,12 +20,18 @@ export default function Card({
   playlistId,
   index = 0,
 }: Props) {
-  const { player, playing, onPlay, updatePlaylist } = useAudioPlayer();
+  const {
+    player: { playlist, current },
+    playing,
+    onPlay,
+    updatePlaylist,
+  } = useAudioPlayer();
+
   const { id, cover_image: imageSrc, title } = data;
 
   const handlePlay = () => {
     if (type === "playlist") {
-      if (player.playlist?.id === data.id) {
+      if (playlist?.id === data.id) {
         return onPlay();
       }
 
@@ -34,8 +40,8 @@ export default function Card({
 
     if (type === "track" && playlistId) {
       if (
-        player.playlist?.id === playlistId &&
-        player.playlist?.tracks[player.current].id === data.id
+        playlist?.id === playlistId &&
+        playlist?.tracks[current].id === data.id
       ) {
         return onPlay();
       }
@@ -43,6 +49,12 @@ export default function Card({
       updatePlaylist(playlistId, index, true);
     }
   };
+
+  const samePlaylist = type === "playlist" && playlist?.id === playlistId;
+  const sameTrack =
+    type === "track" &&
+    playlist?.id === playlistId &&
+    playlist?.tracks[current].id === data.id;
 
   return (
     <li className="card">
@@ -60,11 +72,8 @@ export default function Card({
         }
       />
       <p className="card__title">{title || ""}</p>
-      {playing &&
-      ((type === "playlist" && player.playlist?.id === data?.id) ||
-        (type === "track" &&
-          player.playlist?.id === playlistId &&
-          player.playlist?.tracks.some((track) => track.id === data.id))) ? (
+
+      {playing && (samePlaylist || sameTrack) ? (
         <Pause classes="card__pauseBtn" />
       ) : (
         <Play classes="card__playBtn" onClick={handlePlay} />

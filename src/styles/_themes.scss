@@ -26,7 +26,7 @@
   }
 
   %activeMenuItem {
-    background: rgb(236 236 236 / 52%);
+    background-color: rgb(236 236 236 / 52%);
     color: $black-90;
   }
 
@@ -35,7 +35,6 @@
 
     &:hover {
       @extend %activeMenuItem;
-      transition: $hover;
     }
 
     &:focus-visible {
@@ -48,6 +47,10 @@
   }
 
   // Theme Toggle
+  .themeToggle {
+    background: rgb(255 255 255 / 34%);
+  }
+
   .themeToggle__switch {
     padding: 4px;
     background-color: #1983ef;
@@ -59,7 +62,7 @@
   }
 
   .container {
-    background-color: rgb(235 227 255 / 73%);
+    background: rgb(235 227 255 / 73%);
   }
 
   // Main

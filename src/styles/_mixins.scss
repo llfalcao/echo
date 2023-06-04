@@ -1,3 +1,14 @@
+// Transitions
+@mixin transition($property, $duration, $function: ease) {
+  transition-property: $property;
+  transition-duration: $duration;
+  transition-timing-function: $function;
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
 // Play/Pause Button
 @mixin playBtn($height) {
   position: relative;
@@ -57,7 +68,7 @@
   justify-content: center;
   align-items: center;
   opacity: 0.7;
-  transition: opacity $hover;
+  @include transition(opacity, 0.15s, ease-in);
 
   &:hover {
     opacity: 1;

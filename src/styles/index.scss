@@ -12,9 +12,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - #{$footerHeight});
   overflow: hidden;
-  background: rgba(9, 9, 9, 0.75);
+  background: linear-gradient(to bottom, #0d0e1080, #0d0e10 400px);
 }
 
 @keyframes spin {

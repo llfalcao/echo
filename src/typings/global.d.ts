@@ -2,7 +2,7 @@ declare interface Track {
   id: string;
   yid: string;
   title: string;
-  cover_image?: string;
+  cover_image: string;
   lyrics?: string;
   added_at: string;
   updated_at: string;
