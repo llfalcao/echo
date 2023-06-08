@@ -10,8 +10,8 @@
 }
 
 // Play/Pause Button
-@mixin playBtn($height) {
-  position: relative;
+@mixin playBtn($position: relative, $height) {
+  position: $position;
   height: $height;
   aspect-ratio: 1;
   background-color: $purple;

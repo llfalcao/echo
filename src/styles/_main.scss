@@ -88,8 +88,7 @@ main h2 {
 }
 
 .card__playBtn {
-  @include playBtn(40px);
-  position: absolute;
+  @include playBtn(absolute, 40px);
   top: 120px;
   right: 20px;
   z-index: 0;
@@ -106,9 +105,8 @@ main h2 {
 }
 
 .card__pauseBtn {
-  @include playBtn(40px);
-  position: absolute;
-  bottom: 59px;
+  @include playBtn(absolute, 40px);
+  top: 120px;
   right: 20px;
   z-index: 0;
   opacity: 0;
