@@ -5,10 +5,6 @@ main {
   z-index: 0;
 }
 
-main * {
-  font-family: "CircularStd", sans-serif;
-}
-
 main h1 {
   font-size: 28px;
   text-shadow: 1px 1px 2px #333;
@@ -82,14 +78,12 @@ main h2 {
   text-shadow: 0 2px 2px #1f1f1f;
   font-weight: 500;
   color: $white;
-  cursor: default;
   max-width: 150px;
   word-break: break-word;
 }
 
 .card__playBtn {
-  @include playBtn(40px);
-  position: absolute;
+  @include playBtn(absolute, 40px);
   top: 120px;
   right: 20px;
   z-index: 0;
@@ -106,9 +100,8 @@ main h2 {
 }
 
 .card__pauseBtn {
-  @include playBtn(40px);
-  position: absolute;
-  bottom: 59px;
+  @include playBtn(absolute, 40px);
+  top: 120px;
   right: 20px;
   z-index: 0;
   opacity: 0;

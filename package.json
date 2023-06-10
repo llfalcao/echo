@@ -1,7 +1,8 @@
 {
   "name": "retune",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "private": true,
+  "author": "Luiz Otávio Lima Falcão",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
