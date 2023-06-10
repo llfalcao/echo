@@ -1,0 +1,87 @@
+.track {
+  display: grid;
+  grid-template-columns: minmax(40%, 500px) auto;
+  grid-template-rows: repeat(3, auto);
+  margin-left: 20px;
+  grid-gap: 30px;
+  gap: 16px;
+}
+
+%trackContainer {
+  border: 1px solid #ffffff1a;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.track__header {
+  @extend %trackContainer;
+  display: flex;
+  gap: 16px;
+  grid-row: 1;
+}
+
+.track__image {
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 4px;
+}
+
+.track__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.track__title {
+  margin: 0;
+}
+
+.track__stats {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.track__stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.track__description {
+  @extend %trackContainer;
+  grid-row: 2;
+}
+
+.track__lyrics {
+  @extend %trackContainer;
+  grid-row: 3;
+}
+
+.track__comments {
+  @extend %trackContainer;
+  grid-row: 1 / span 3;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 30px;
+}
+
+.comment__header {
+  display: flex;
+  gap: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.comment__time {
+  color: #8e8e8e;
+}
+
+.comment__body {
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 400;
+}
