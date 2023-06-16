@@ -35,7 +35,7 @@ const featuredContent: FeaturedContent[] = [
   },
 ];
 
-const getPlaylists = async (): Promise<Playlist[]> => {
+const getPlaylists = async () => {
   const client = await clientPromise;
   const db = client.db();
   const data = await db
