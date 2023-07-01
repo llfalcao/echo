@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "prettier --write . && next lint"
   },
   "dependencies": {
     "@distube/ytdl-core": "^4.11.10",
@@ -33,6 +33,7 @@
     "@types/react-dom": "^18.2.5",
     "@types/styled-components": "^5.1.26",
     "eslint-config-next": "^13.4.6",
+    "prettier": "2.8.8",
     "sass": "^1.58.0",
     "styled-components": "^5.3.10",
     "typescript": "^5.1.3"
