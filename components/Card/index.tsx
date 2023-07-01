@@ -38,14 +38,11 @@ export default function Card({
         return onPlay();
       }
 
-      updatePlaylist(data.id, 0, true);
+      updatePlaylist(data.id, index, true);
     }
 
     if (type === "track" && playlistId) {
-      if (
-        playlist?.id === playlistId &&
-        playlist?.tracks[current].id === data.id
-      ) {
+      if (playlist?.id === playlistId && current === data.id) {
         return onPlay();
       }
 
@@ -55,9 +52,7 @@ export default function Card({
 
   const samePlaylist = type === "playlist" && playlist?.id === playlistId;
   const sameTrack =
-    type === "track" &&
-    playlist?.id === playlistId &&
-    playlist?.tracks[current].id === data.id;
+    type === "track" && playlist?.id === playlistId && current === data.id;
 
   return (
     <li>
