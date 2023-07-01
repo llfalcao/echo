@@ -14,23 +14,23 @@ import Volume from "./Volume";
 export default function Player() {
   const { audio, src, playing, player, onPlay } = useAudioPlayer();
   const { playlist, current } = player;
+  const { tracks } = playlist ?? {};
+  const index = tracks?.findIndex((track) => track.id === current) ?? 0;
 
   return (
     <div className="player">
       <div className="song">
-        {player.playlist?.tracks.length ? (
+        {tracks?.length ? (
           <>
             <Image
               className="song__cover"
-              src={playlist?.tracks[current].cover_image ?? ""}
+              src={tracks[index].cover_image ?? ""}
               alt="Song Cover Image"
               width={64}
               height={64}
             />
             <div>
-              <p className="song__title">
-                {playlist?.tracks[current].title ?? ""}
-              </p>
+              <p className="song__title">{tracks[index].title ?? ""}</p>
               <p className="song__artist">Unknown Artist</p>
             </div>
           </>

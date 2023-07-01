@@ -1,0 +1,8 @@
+{
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "jsxSingleQuote": false,
+  "printWidth": 80,
+  "singleQuote": false,
+  "trailingComma": "all"
+}

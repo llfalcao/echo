@@ -4,7 +4,7 @@ import { useBetween } from "use-between";
 
 interface Player {
   playlist?: Playlist;
-  current: number;
+  current?: TrackId;
   userInteracted: boolean;
 }
 
@@ -12,7 +12,7 @@ const AudioPlayer = () => {
   const audio = useRef<HTMLAudioElement | null>(null);
   const [player, setPlayer] = useState<Player>({
     playlist: undefined,
-    current: 0,
+    current: undefined,
     userInteracted: false,
   });
   const [src, setSrc] = useState<string>("");
@@ -26,6 +26,10 @@ const AudioPlayer = () => {
   const [volume, setVolume] = useState<number | undefined>();
   const [loaded, setLoaded] = useState<boolean>(false);
 
+  const getCurrentTrackIndex = () =>
+    player.playlist?.tracks.findIndex((track) => track.id === player.current) ??
+    0;
+
   const onPlay = () => {
     setPlaying(true);
     audio.current?.play();
@@ -37,22 +41,30 @@ const AudioPlayer = () => {
   };
 
   const onPrevious = () => {
-    if (player.playlist?.tracks[player.current - 1]) {
-      setPlayer({ ...player, current: player.current - 1 });
+    const current = getCurrentTrackIndex();
+    const { tracks } = player.playlist ?? {};
+
+    if (current && tracks?.[current - 1]) {
+      setPlayer({ ...player, current: tracks[current - 1].id });
     }
   };
 
   const onNext = () => {
-    if (!player.playlist?.tracks || !audio.current) return;
-    const hasNext = player.playlist.tracks[player.current + 1] !== undefined;
-    const isLast = player.playlist.tracks.length - 1 === player.current;
+    const current = getCurrentTrackIndex();
+    const { tracks } = player.playlist ?? {};
+
+    if (!tracks?.length || !audio.current) return;
+    const hasNext = tracks[current + 1] !== undefined;
+    const isLast = tracks[tracks.length - 1].id === tracks[current].id;
+
+    console.log("# ", hasNext, isLast);
 
     if (repeat === "song") {
       audio.current.currentTime = 0;
     } else if (repeat === "playlist" && isLast) {
-      setPlayer({ ...player, current: 0 });
+      setPlayer({ ...player, current: tracks[0].id });
     } else if (hasNext) {
-      setPlayer({ ...player, current: player.current + 1 });
+      setPlayer({ ...player, current: tracks[current + 1].id });
     }
 
     if (hasNext && audio.current.ended) {
@@ -79,21 +91,35 @@ const AudioPlayer = () => {
   };
 
   const onShuffle = () => {
-    if (!player.playlist?.tracks || !originalPlaylist?.tracks) return;
+    const current = getCurrentTrackIndex();
+    const { tracks } = player.playlist ?? {};
+    if (!tracks || !player.playlist || !originalPlaylist?.tracks) return;
 
+    // Currently NOT shuffled
     if (!shuffle) {
-      const previousTracks = player.playlist.tracks.slice(
-        0,
-        player.current + 1,
+      const [previousTracks, target] = tracks.reduce(
+        (acc, track, index) => {
+          if (index <= current) {
+            acc[0].push(track);
+          } else {
+            acc[1].push(track);
+          }
+          return acc;
+        },
+        [[], []] as [Track[], Track[]],
       );
-      let target = player.playlist.tracks.slice(player.current + 1);
 
       for (let i = 0; i < target.length; i++) {
         const j = Math.floor(Math.random() * (i + 1));
         [target[i], target[j]] = [target[j], target[i]];
       }
-
       const shuffled = [...previousTracks, ...target];
+
+      console.log(
+        "# shuffled",
+        shuffled.map((t) => t.title.charAt(0)),
+      );
+
       setPlayer({
         ...player,
         playlist: {
@@ -104,15 +130,44 @@ const AudioPlayer = () => {
 
       setShuffle(true);
     } else {
-      const currentTrack = originalPlaylist.tracks.indexOf(
-        player.playlist.tracks[player.current],
+      const currentTrackIndex = originalPlaylist.tracks.findIndex(
+        (track) => track.id === tracks[current].id,
       );
 
-      const previousTracks = originalPlaylist.tracks.slice(0, currentTrack + 1);
-      const unshuffled = [
-        ...previousTracks,
-        ...originalPlaylist.tracks.slice(currentTrack + 1),
-      ];
+      console.log("# currentTrackIndex", currentTrackIndex);
+      const upToCurrent = originalPlaylist.tracks.slice(
+        0,
+        currentTrackIndex + 1,
+      );
+      console.log("# upToCurrent", upToCurrent);
+
+      const [before, after] = originalPlaylist.tracks.reduce(
+        (acc, track, index) => {
+          if (index <= currentTrackIndex) {
+            acc[0].push(track);
+          } else {
+            acc[1].push(track);
+          }
+          return acc;
+        },
+        [[], []] as [Track[], Track[]],
+      );
+
+      console.log(
+        "# before",
+        before.map((t) => t.title.charAt(0)),
+      );
+      console.log(
+        "# after",
+        after.map((t) => t.title.charAt(0)),
+      );
+
+      const unshuffled = [...before, ...after];
+
+      console.log(
+        "# unshuffled",
+        unshuffled.map((t) => t.title.charAt(0)),
+      );
 
       setPlayer({
         ...player,
@@ -120,6 +175,7 @@ const AudioPlayer = () => {
           ...player.playlist,
           tracks: unshuffled,
         },
+        current: originalPlaylist.tracks[currentTrackIndex].id,
       });
 
       setShuffle(false);
@@ -145,11 +201,15 @@ const AudioPlayer = () => {
     const urlStart = backgroundImage.indexOf('("') + 2;
     const urlEnd = backgroundImage.indexOf('")');
     const currentUrl = backgroundImage.substring(urlStart, urlEnd);
-    const { playlist, current } = player;
+    const { playlist } = player ?? {};
+    const { tracks } = playlist ?? {};
+    const currentTrackIndex = getCurrentTrackIndex();
+
+    if (!tracks?.length) return;
 
     // Preload next image
     const image = new Image();
-    image.src = playlist?.tracks[current].cover_image ?? currentUrl;
+    image.src = tracks[currentTrackIndex].cover_image ?? currentUrl;
 
     const onImageLoad = () => {
       document.body.style.backgroundImage = backgroundImage.replace(
@@ -200,6 +260,7 @@ const AudioPlayer = () => {
   }, [src]);
 
   useEffect(() => {
+    const current = getCurrentTrackIndex();
     if (!player.playlist) return;
 
     if (player.playlist.id !== originalPlaylist?.id) {
@@ -208,7 +269,7 @@ const AudioPlayer = () => {
 
     const fetchPlaylist = async () => {
       const response = await fetch(
-        `/api/audio/${player.playlist?.tracks[player.current].yid}`,
+        `/api/audio/${player.playlist?.tracks[current].yid}`,
       );
 
       if (!response.ok) {
@@ -232,12 +293,17 @@ const AudioPlayer = () => {
 
   const updatePlaylist = async (
     id: string,
-    index: number = 0,
+    index: number,
     userInteracted: boolean,
   ) => {
     const response = await fetch(`/api/playlists/${id}`);
-    const data = await response.json();
-    setPlayer({ playlist: data, current: index, userInteracted });
+    const data: Playlist = await response.json();
+
+    setPlayer({
+      playlist: data,
+      current: data.tracks[index].id,
+      userInteracted,
+    });
   };
 
   return {
