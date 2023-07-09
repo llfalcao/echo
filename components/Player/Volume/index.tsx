@@ -61,7 +61,7 @@ export default function Volume() {
       <button
         type="button"
         className="volume__btn"
-        aria-label={volume === 0 ? "Unmute" : "Mute"}
+        aria-label={volume || fallback === 0 ? "Unmute" : "Mute"}
         onClick={onVolumeBtnClick}
       >
         {volume === 0 ? <VolumeMute /> : <VolumeDown />}

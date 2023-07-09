@@ -56,10 +56,14 @@ export default function Card({
 
   return (
     <li>
-      <Link href={`/${type}/${id}`} className="card">
+      <Link
+        href={`/${type}/${id}`}
+        className="card"
+        aria-label={`${type}: ${title}`}
+      >
         <Image
           src={imageSrc ?? `https://picsum.photos/135/135?sig=${id}`}
-          alt={title}
+          alt="Cover Image"
           className="card__image card__image--loading"
           width="150"
           height="150"

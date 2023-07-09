@@ -12,10 +12,10 @@ export default function Repeat() {
       }`.trim()}
       aria-label={
         repeat === "none"
-          ? "Enable Repeat"
+          ? "Repeat: Disabled"
           : repeat === "song"
-          ? "Repeat Playlist"
-          : "Disable Repeat"
+          ? "Repeat: Song"
+          : "Repeat: Playlist"
       }
       onClick={onRepeat}
     >

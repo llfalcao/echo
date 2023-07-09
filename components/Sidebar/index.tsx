@@ -78,7 +78,7 @@ export default function Sidebar() {
         <button
           onClick={changeTheme}
           className="themeToggle__switch"
-          title="Switch Theme"
+          title={`Current theme: ${theme}`}
         >
           <div className="themeToggle__circle">
             {theme === "dark" ? (
