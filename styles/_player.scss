@@ -23,6 +23,7 @@
 .song__cover {
   max-width: 64px;
   height: auto;
+  border-radius: 4px;
 
   & img {
     object-fit: cover;
