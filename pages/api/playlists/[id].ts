@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 export const getPlaylist = async (id: string, page: number = 1) => {
   const skip = page <= 1 ? 0 : page * 10;
-  const pageSize = page * 3;
+  const pageSize = page * 10;
 
   try {
     const client = await clientPromise;
