@@ -28,10 +28,10 @@ const Home: NextPage<Props> = ({ playlistIds, content }) => {
     const currentHour = new Date().getHours();
     setWelcomeMessage(
       currentHour > 4 && currentHour < 12
-        ? "Good morning"
+        ? "Good morning!"
         : currentHour >= 12 && currentHour < 18
-        ? "Good afternoon"
-        : "Good evening",
+        ? "Good afternoon!"
+        : "Good evening!",
     );
   }, []);
 
@@ -59,7 +59,7 @@ const Home: NextPage<Props> = ({ playlistIds, content }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <h1>{welcomeMessage}!</h1>
+      <h1>{welcomeMessage}</h1>
 
       {data.map((item) => (
         <Featured key={item.title} {...item} />
@@ -85,7 +85,7 @@ export const getStaticProps: GetStaticProps = async () => {
       title: "By genre",
       content: {
         type: "playlist",
-        ids: process.env.HOME_FEATURED_PLAYLIST_1?.split(",") ?? [],
+        ids: process.env.HOME_FEATURED_PLAYLIST_2?.split(",") ?? [],
         data: [],
       },
       imagePriority: true,
