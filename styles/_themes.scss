@@ -18,7 +18,7 @@
 
   // Sidebar
   .sidebar {
-    background: #a8a8d9f7;
+    background: #d9d9e7;
   }
 
   .sidebar__logoText {
@@ -28,6 +28,10 @@
   %activeMenuItem {
     background-color: rgb(236 236 236 / 52%);
     color: $black-90;
+  }
+
+  .menu__item--active {
+    @extend %activeMenuItem;
   }
 
   .menu__link {

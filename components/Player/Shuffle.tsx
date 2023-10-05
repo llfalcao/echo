@@ -11,6 +11,7 @@ export default function Shuffle() {
       }`.trim()}
       aria-label="Shuffle Playlist"
       onClick={onShuffle}
+      aria-pressed={shuffle}
     >
       <ShuffleRounded />
     </button>

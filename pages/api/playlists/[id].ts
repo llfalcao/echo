@@ -1,7 +1,10 @@
 import clientPromise from "@/utils/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export const getPlaylist = async (id: string) => {
+export const getPlaylist = async (id: string, page: number = 1) => {
+  const skip = page <= 1 ? 0 : page * 10;
+  const pageSize = page * 10;
+
   try {
     const client = await clientPromise;
     const db = client.db();
@@ -25,9 +28,15 @@ export const getPlaylist = async (id: string) => {
         {
           $lookup: {
             from: "tracks",
+            let: { trackIds: { $slice: ["$tracks", skip, pageSize] } },
             localField: "tracks",
             foreignField: "id",
             pipeline: [
+              {
+                $match: {
+                  $expr: { $in: ["$id", "$$trackIds"] },
+                },
+              },
               {
                 $project: {
                   _id: 0,

@@ -87,17 +87,23 @@
 
 @mixin skeleton($minHeight) {
   @keyframes skeleton-slide {
-    100% {
-      background-position: 300% 100%;
+    to {
+      background-position: 2500% 0;
     }
   }
 
   min-height: $minHeight;
   opacity: 0.25;
   border-radius: 8px;
-  background: linear-gradient(to left, #000, #222, #222, #000);
-  background-size: 300% 100%;
-  background-position: 0%;
-  animation: skeleton-slide 2s infinite linear;
   border: 1px solid rgb(70, 70, 70);
+  background: linear-gradient(
+    135deg,
+    transparent 0,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  background-size: 95% 100%;
+  background-repeat: no-repeat;
+  background-position: -2500% 0;
+  animation: skeleton-slide 1.1s linear infinite;
 }
