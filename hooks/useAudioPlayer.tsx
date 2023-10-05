@@ -57,8 +57,6 @@ const AudioPlayer = () => {
     const hasNext = tracks[current + 1] !== undefined;
     const isLast = tracks[tracks.length - 1].id === tracks[current].id;
 
-    console.log("# ", hasNext, isLast);
-
     if (repeat === "song") {
       audio.current.currentTime = 0;
     } else if (repeat === "playlist" && isLast) {
@@ -115,11 +113,6 @@ const AudioPlayer = () => {
       }
       const shuffled = [...previousTracks, ...target];
 
-      console.log(
-        "# shuffled",
-        shuffled.map((t) => t.title.charAt(0)),
-      );
-
       setPlayer({
         ...player,
         playlist: {
@@ -134,12 +127,10 @@ const AudioPlayer = () => {
         (track) => track.id === tracks[current].id,
       );
 
-      console.log("# currentTrackIndex", currentTrackIndex);
       const upToCurrent = originalPlaylist.tracks.slice(
         0,
         currentTrackIndex + 1,
       );
-      console.log("# upToCurrent", upToCurrent);
 
       const [before, after] = originalPlaylist.tracks.reduce(
         (acc, track, index) => {
@@ -153,21 +144,7 @@ const AudioPlayer = () => {
         [[], []] as [Track[], Track[]],
       );
 
-      console.log(
-        "# before",
-        before.map((t) => t.title.charAt(0)),
-      );
-      console.log(
-        "# after",
-        after.map((t) => t.title.charAt(0)),
-      );
-
       const unshuffled = [...before, ...after];
-
-      console.log(
-        "# unshuffled",
-        unshuffled.map((t) => t.title.charAt(0)),
-      );
 
       setPlayer({
         ...player,
