@@ -1,12 +1,21 @@
+import Pause from "@/components/Player/Pause";
+import Play from "@/components/Player/Play";
+import useAudioPlayer from "@/hooks/useAudioPlayer";
 import { usePlaylists } from "@/hooks/usePlaylists";
 import { NextPage } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 const Playlist: NextPage = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const id = router.query.id as string;
   const { playlists, isLoading, error } = usePlaylists([id as string]);
+  const {
+    updatePlaylist,
+    player: { current },
+    playing,
+  } = useAudioPlayer();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -27,9 +36,13 @@ const Playlist: NextPage = () => {
   const cover =
     cover_image ?? `https://picsum.photos/${COVER_SIZE}/${COVER_SIZE}.webp`;
 
+  const handlePlay = (index: number) => {
+    updatePlaylist(id, index, true);
+  };
+
   return (
     <div>
-      <div>
+      <div className="playlist__header">
         <Image
           src={cover}
           alt={title}
@@ -43,10 +56,47 @@ const Playlist: NextPage = () => {
           {title} #{id}
         </h1>
       </div>
-      <ul>
-        {tracks?.map((track) => (
-          <li key={track.id}>{track.title}</li>
-        ))}
+      <ul className="playlist__tracks">
+        {tracks?.map((track, index) => {
+          const isCurrent = playlist?.id === id && current === track.id;
+
+          return (
+            <li
+              key={track.id}
+              className={`playlist__track ${
+                current === track.id ? "playlist__track--active" : ""
+              }`.trim()}
+            >
+              {playing && isCurrent ? (
+                <Pause classes="playlist__pauseBtn" />
+              ) : (
+                <Play
+                  classes="playlist__playBtn"
+                  onClick={() => handlePlay(index)}
+                />
+              )}
+              <Link href={`/track/${track.id}`}>
+                <Image
+                  src={
+                    track.cover_image ?? `https://picsum.photos/32/32?sig=${id}`
+                  }
+                  alt="Cover Image"
+                  className="playlist__trackImage playlist'__trackImage--loading"
+                  width="32"
+                  height="32"
+                  loading="eager"
+                  quality={100}
+                  onLoad={({ currentTarget }) =>
+                    currentTarget.classList.remove(
+                      "playlist__trackImage--loading",
+                    )
+                  }
+                />
+                <span className="playlist__trackTitle">{track.title}</span>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
