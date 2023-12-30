@@ -109,6 +109,51 @@ main h2 {
   filter: drop-shadow(0 2px 2px $black-90);
 }
 
+// Playlists
+.playlist__track,
+.playlist__track a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.playlist__track {
+  padding: 8px 12px;
+
+  &:hover {
+    background: rgba(#ffffff, 0.05);
+  }
+}
+
+.playlist__playBtn {
+  @include playBtn(static, 32px);
+  background: none;
+  visibility: hidden;
+}
+
+.playlist__pauseBtn {
+  @include playBtn(static, 32px);
+  background: none;
+  visibility: hidden;
+}
+
+.playlist__trackImage {
+  border-radius: 2px;
+}
+
+.playlist__track--active {
+  .playlist__trackTitle {
+    color: $lightPurple;
+  }
+}
+
+.playlist__track:hover {
+  .playlist__playBtn,
+  .playlist__pauseBtn {
+    visibility: visible;
+  }
+}
+
 // 404
 .notFound {
   display: flex;

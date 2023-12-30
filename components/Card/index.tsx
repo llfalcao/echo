@@ -1,10 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 import Play from "../Player/Play";
 import Pause from "../Player/Pause";
-import { getPlaceholder } from "@/utils/images";
-import Link from "next/link";
 
 interface Props {
   data: Playlist | Track;
