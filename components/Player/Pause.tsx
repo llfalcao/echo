@@ -1,15 +1,19 @@
+import { usePlayerDispatch } from "@/context/Player";
 import PauseBtn from "@material-ui/icons/Pause";
-import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 interface Props {
   classes?: string;
 }
 
 export default function Pause({ classes = "player__btn" }: Props) {
-  const { onPause } = useAudioPlayer();
+  const dispatch = usePlayerDispatch();
 
   return (
-    <button className={classes} aria-label="Pause" onClick={onPause}>
+    <button
+      className={classes}
+      aria-label="Pause"
+      onClick={() => dispatch({ type: "PAUSE" })}
+    >
       <PauseBtn className="player__pause" />
     </button>
   );

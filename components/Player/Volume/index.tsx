@@ -1,28 +1,28 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import useAudioPlayer from "@/hooks/useAudioPlayer";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { usePlayer } from "@/context/Player";
 import VolumeDown from "@material-ui/icons/VolumeDownRounded";
 import VolumeMute from "@material-ui/icons/VolumeMuteRounded";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { VolumeInput } from "./styles";
 
 export default function Volume() {
-  const { audio, volume } = useAudioPlayer();
+  const { audioRef, volume } = usePlayer();
   const [fallback, setFallback] = useState<number>(1);
   const [previousVolume, setPreviousVolume] = useState<number>(
     volume ?? fallback,
   );
 
   useEffect(() => {
-    if (audio.current?.src && !volume) {
-      audio.current.volume = fallback;
+    if (audioRef.current?.src && !volume) {
+      audioRef.current.volume = fallback;
     }
-  }, [audio.current?.src]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [audioRef.current?.src]);
 
   const onVolumeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseInt(event.target.value) / 100;
 
-    audio.current?.src
-      ? (audio.current.volume = newVolume)
+    audioRef.current?.src
+      ? (audioRef.current.volume = newVolume)
       : setFallback(newVolume);
   };
 
@@ -30,11 +30,11 @@ export default function Volume() {
     const oldVolume = volume ?? fallback;
 
     if ((volume && volume === 0) || fallback === 0) {
-      audio.current?.src
-        ? (audio.current.volume = parseInt(previousVolume.toString()) / 100)
+      audioRef.current?.src
+        ? (audioRef.current.volume = parseInt(previousVolume.toString()) / 100)
         : setFallback(previousVolume * 100);
     } else {
-      audio.current?.src ? (audio.current.volume = 0) : setFallback(0);
+      audioRef.current?.src ? (audioRef.current.volume = 0) : setFallback(0);
     }
 
     setPreviousVolume(oldVolume);
@@ -51,8 +51,8 @@ export default function Volume() {
       return parseFloat((clampedValue / 100).toFixed(2));
     };
 
-    audio.current?.src
-      ? (audio.current.volume = getNewVolume(audio.current.volume))
+    audioRef.current?.src
+      ? (audioRef.current.volume = getNewVolume(audioRef.current.volume))
       : setFallback(getNewVolume(fallback));
   };
 

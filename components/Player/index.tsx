@@ -1,26 +1,27 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import useAudioPlayer from "@/hooks/useAudioPlayer";
 import Image from "next/image";
 
-import Shuffle from "./Shuffle";
-import Previous from "./Previous";
-import Play from "./Play";
-import Pause from "./Pause";
+import { usePlayer, usePlayerDispatch } from "@/context/Player";
+import { RefObject } from "react";
 import Next from "./Next";
-import Repeat from "./Repeat";
+import Pause from "./Pause";
+import Play from "./Play";
+import Previous from "./Previous";
 import ProgressBar from "./ProgressBar";
+import Repeat from "./Repeat";
+import Shuffle from "./Shuffle";
 import Volume from "./Volume";
 
 export default function Player() {
-  const { audio, src, playing, player, onPlay } = useAudioPlayer();
-  const { playlist, current } = player;
+  const { audioRef, playlist, current, src, playing } = usePlayer();
   const { tracks } = playlist ?? {};
+  const dispatch = usePlayerDispatch();
   const index = tracks?.findIndex((track) => track.id === current) ?? 0;
+  const handlePlay = () => dispatch({ type: "PLAY" });
 
   return (
     <div className="player">
       <div className="song">
-        {tracks?.length ? (
+        {tracks?.length && (
           <>
             <Image
               className="song__cover"
@@ -34,15 +35,15 @@ export default function Player() {
               <p className="song__artist">Unknown Artist</p>
             </div>
           </>
-        ) : null}
+        )}
       </div>
-      <audio id="audio" ref={audio} />
+      <audio id="audio" ref={audioRef as RefObject<HTMLAudioElement>} />
 
       <div className="player__controls">
         <div className="player__btns">
           <Shuffle />
           <Previous />
-          {playing ? <Pause /> : <Play disabled={!src} onClick={onPlay} />}
+          {playing ? <Pause /> : <Play disabled={!src} onClick={handlePlay} />}
           <Next />
           <Repeat />
         </div>

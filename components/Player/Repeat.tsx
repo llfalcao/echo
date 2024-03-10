@@ -1,9 +1,10 @@
+import { usePlayer, usePlayerDispatch } from "@/context/Player";
 import RepeatOneRounded from "@material-ui/icons/RepeatOneRounded";
 import RepeatRounded from "@material-ui/icons/RepeatRounded";
-import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 export default function Repeat() {
-  const { repeat, onRepeat } = useAudioPlayer();
+  const { repeat } = usePlayer();
+  const dispatch = usePlayerDispatch();
 
   return (
     <button
@@ -17,7 +18,7 @@ export default function Repeat() {
           ? "Repeat: Song"
           : "Repeat: Playlist"
       }
-      onClick={onRepeat}
+      onClick={() => dispatch({ type: "REPEAT" })}
     >
       {repeat === "song" ? <RepeatOneRounded /> : <RepeatRounded />}
     </button>

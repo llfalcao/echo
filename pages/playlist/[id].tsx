@@ -1,6 +1,6 @@
 import Pause from "@/components/Player/Pause";
 import Play from "@/components/Player/Play";
-import useAudioPlayer from "@/hooks/useAudioPlayer";
+import { usePlayer, usePlayerDispatch } from "@/context/Player";
 import { usePlaylists } from "@/hooks/usePlaylists";
 import { NextPage } from "next";
 import Image from "next/image";
@@ -11,11 +11,8 @@ const Playlist: NextPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
   const { playlists, isLoading, error } = usePlaylists([id as string]);
-  const {
-    updatePlaylist,
-    player: { current },
-    playing,
-  } = useAudioPlayer();
+  const { current, playing } = usePlayer();
+  const dispatch = usePlayerDispatch();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -35,6 +32,24 @@ const Playlist: NextPage = () => {
   const COVER_SIZE = 200;
   const cover =
     cover_image ?? `https://picsum.photos/${COVER_SIZE}/${COVER_SIZE}.webp`;
+
+  const updatePlaylist = async (
+    id: string,
+    index: number,
+    userInteracted: boolean,
+  ) => {
+    const response = await fetch(`/api/playlists/${id}`);
+    const data: Playlist = await response.json();
+
+    dispatch({
+      type: "SET_PLAYLIST",
+      payload: {
+        playlist: data,
+        current: data.tracks[index].id,
+        userInteracted,
+      },
+    });
+  };
 
   const handlePlay = (index: number) => {
     updatePlaylist(id, index, true);

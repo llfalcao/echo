@@ -1,8 +1,9 @@
+import { usePlayer, usePlayerDispatch } from "@/context/Player";
 import ShuffleRounded from "@material-ui/icons/ShuffleRounded";
-import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 export default function Shuffle() {
-  const { shuffle, onShuffle } = useAudioPlayer();
+  const { shuffle } = usePlayer();
+  const dispatch = usePlayerDispatch();
 
   return (
     <button
@@ -10,7 +11,7 @@ export default function Shuffle() {
         shuffle ? "player__btn--active" : ""
       }`.trim()}
       aria-label="Shuffle Playlist"
-      onClick={onShuffle}
+      onClick={() => dispatch({ type: "SHUFFLE" })}
       aria-pressed={shuffle}
     >
       <ShuffleRounded />

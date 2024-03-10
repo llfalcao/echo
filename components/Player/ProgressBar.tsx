@@ -1,16 +1,12 @@
-import { MouseEvent, useEffect, useRef, useState } from "react";
 import moment from "moment";
 import "moment-duration-format";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 
-import useAudioPlayer from "@/hooks/useAudioPlayer";
+import { usePlayer, usePlayerDispatch } from "@/context/Player";
 
 export default function ProgressBar() {
-  const {
-    audio,
-    currentTime = 0,
-    duration = 0,
-    setClickedTime,
-  } = useAudioPlayer();
+  const { audioRef, currentTime = 0, duration = 0 } = usePlayer();
+  const dispatch = usePlayerDispatch();
 
   const progress = useRef<HTMLDivElement>(null);
   const thumb = useRef<HTMLButtonElement>(null);
@@ -42,7 +38,7 @@ export default function ProgressBar() {
   };
 
   const onMouseDown = (event: MouseEvent) => {
-    if (!audio.current || !duration) return;
+    if (!audioRef.current || !duration) return;
     let clickedTime = getClickedTime(event);
     let percentage = (clickedTime / duration) * 100;
     setThumbPosition(percentage < 100 ? percentage : 100);
@@ -56,8 +52,7 @@ export default function ProgressBar() {
     const onMouseUp = () => {
       setPercentage(percentage);
       setThumbPosition(undefined);
-
-      setClickedTime(clickedTime);
+      dispatch({ type: "SET_CLICKED_TIME", payload: clickedTime });
       document.removeEventListener("mousemove", onMouseMove);
     };
 

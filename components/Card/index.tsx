@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import useAudioPlayer from "@/hooks/useAudioPlayer";
-import Play from "../Player/Play";
+import { usePlayer, usePlayerDispatch } from "@/context/Player";
 import Pause from "../Player/Pause";
+import Play from "../Player/Play";
 
 interface Props {
   data: Playlist | Track;
@@ -20,21 +20,34 @@ export default function Card({
   playlistId,
   index = 0,
 }: Props) {
-  const {
-    player: { playlist, current },
-    playing,
-    onPlay,
-    updatePlaylist,
-  } = useAudioPlayer();
-
+  const { playlist, current, playing } = usePlayer();
+  const dispatch = usePlayerDispatch();
   const { id, cover_image: imageSrc, title } = data;
+
+  const updatePlaylist = async (
+    id: string,
+    index: number,
+    userInteracted: boolean,
+  ) => {
+    const response = await fetch(`/api/playlists/${id}`);
+    const data: Playlist = await response.json();
+
+    dispatch({
+      type: "SET_PLAYLIST",
+      payload: {
+        playlist: data,
+        current: data.tracks[index].id,
+        userInteracted,
+      },
+    });
+  };
 
   const handlePlay = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (type === "playlist") {
       if (playlist?.id === data.id) {
-        return onPlay();
+        return dispatch({ type: "PLAY" });
       }
 
       updatePlaylist(data.id, index, true);
@@ -42,7 +55,7 @@ export default function Card({
 
     if (type === "track" && playlistId) {
       if (playlist?.id === playlistId && current === data.id) {
-        return onPlay();
+        return dispatch({ type: "PLAY" });
       }
 
       updatePlaylist(playlistId, index, true);
