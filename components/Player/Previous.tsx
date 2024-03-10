@@ -1,14 +1,14 @@
+import { usePlayerDispatch } from "@/context/Player";
 import SkipPreviousRounded from "@material-ui/icons/SkipPreviousRounded";
-import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 export default function Previous() {
-  const { onPrevious } = useAudioPlayer();
+  const dispatch = usePlayerDispatch();
 
   return (
     <button
       className="player__previous"
       aria-label="Previous Song"
-      onClick={onPrevious}
+      onClick={() => dispatch({ type: "PREVIOUS" })}
     >
       <SkipPreviousRounded />
     </button>
