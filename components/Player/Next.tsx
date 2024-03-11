@@ -1,5 +1,7 @@
+"use client";
+
 import { usePlayerDispatch } from "@/context/Player";
-import SkipNextRounded from "@material-ui/icons/SkipNextRounded";
+import SkipNextRounded from "@mui/icons-material/SkipNextRounded";
 
 export default function Next() {
   const dispatch = usePlayerDispatch();

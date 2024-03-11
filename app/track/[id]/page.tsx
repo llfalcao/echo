@@ -1,16 +1,20 @@
-import { NextPage } from "next";
-import { useRouter } from "next/router";
-import Image from "next/image";
+import { getTrack } from "@/app/api/tracks";
+import Favorite from "@mui/icons-material/FavoriteRounded";
+import Forum from "@mui/icons-material/ForumRounded";
 import { Inter } from "next/font/google";
-import useTracks from "@/hooks/useTracks";
-import Favorite from "@material-ui/icons/FavoriteRounded";
-import Forum from "@material-ui/icons/ForumRounded";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const Track: NextPage = () => {
-  const router = useRouter();
-  const { track } = useTracks(router.query.id as string);
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+export default async function Track({ params }: Props) {
+  const { id } = params;
+  const track = await getTrack(id);
 
   if (!track) return null;
 
@@ -25,9 +29,9 @@ const Track: NextPage = () => {
           height={150}
           loading="eager"
           quality={100}
-          onLoad={({ currentTarget }) =>
-            currentTarget.classList.remove("track__image--loading")
-          }
+          // onLoad={({ currentTarget }) =>
+          //   currentTarget.classList.remove("track__image--loading")
+          // }
         />
         <div className="track__info">
           <h1 className="track__title">{track.title}</h1>
@@ -97,6 +101,4 @@ const Track: NextPage = () => {
       </div>
     </div>
   );
-};
-
-export default Track;
+}

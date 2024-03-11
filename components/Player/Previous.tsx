@@ -1,5 +1,7 @@
+"use client";
+
 import { usePlayerDispatch } from "@/context/Player";
-import SkipPreviousRounded from "@material-ui/icons/SkipPreviousRounded";
+import SkipPreviousRounded from "@mui/icons-material/SkipPreviousRounded";
 
 export default function Previous() {
   const dispatch = usePlayerDispatch();

@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
+"use client";
+
+import LightMode from "@mui/icons-material/Brightness7";
+import Favorite from "@mui/icons-material/FavoriteRounded";
+import Forum from "@mui/icons-material/ForumRounded";
+import Home from "@mui/icons-material/HomeRounded";
+import Search from "@mui/icons-material/SearchRounded";
 import Image from "next/image";
 import Link from "next/link";
-import Home from "@material-ui/icons/HomeRounded";
-import Favorite from "@material-ui/icons/FavoriteRounded";
-import Search from "@material-ui/icons/SearchRounded";
-import Forum from "@material-ui/icons/ForumRounded";
-import LightMode from "@material-ui/icons/Brightness7";
+import { useEffect, useState } from "react";
 
+import { usePathname } from "next/navigation";
 import logo from "../../assets/images/logo.png";
-import { useRouter } from "next/router";
 
 export default function Sidebar() {
   const [theme, setTheme] = useState("dark");
-  const { pathname } = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -39,7 +41,7 @@ export default function Sidebar() {
         <div className="sidebar__logoImage">
           <Image src={logo} alt="" width={25} />
         </div>
-        <p className="sidebar__logoText">re:tune</p>
+        <p className="sidebar__logoText">echo</p>
       </Link>
 
       <nav className="menu">

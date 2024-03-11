@@ -1,5 +1,7 @@
+"use client";
+
 import { usePlayer, usePlayerDispatch } from "@/context/Player";
-import ShuffleRounded from "@material-ui/icons/ShuffleRounded";
+import ShuffleRounded from "@mui/icons-material/ShuffleRounded";
 
 export default function Shuffle() {
   const { shuffle } = usePlayer();

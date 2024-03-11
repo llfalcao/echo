@@ -1,6 +1,8 @@
+"use client";
+
 import { usePlayer, usePlayerDispatch } from "@/context/Player";
-import RepeatOneRounded from "@material-ui/icons/RepeatOneRounded";
-import RepeatRounded from "@material-ui/icons/RepeatRounded";
+import RepeatOneRounded from "@mui/icons-material/RepeatOneRounded";
+import RepeatRounded from "@mui/icons-material/RepeatRounded";
 
 export default function Repeat() {
   const { repeat } = usePlayer();
@@ -15,8 +17,8 @@ export default function Repeat() {
         repeat === "none"
           ? "Repeat: Disabled"
           : repeat === "song"
-          ? "Repeat: Song"
-          : "Repeat: Playlist"
+            ? "Repeat: Song"
+            : "Repeat: Playlist"
       }
       onClick={() => dispatch({ type: "REPEAT" })}
     >

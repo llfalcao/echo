@@ -1,6 +1,8 @@
+"use client";
+
 import { usePlayer } from "@/context/Player";
-import VolumeDown from "@material-ui/icons/VolumeDownRounded";
-import VolumeMute from "@material-ui/icons/VolumeMuteRounded";
+import VolumeDown from "@mui/icons-material/VolumeDownRounded";
+import VolumeMute from "@mui/icons-material/VolumeMuteRounded";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { VolumeInput } from "./styles";
 
@@ -72,7 +74,7 @@ export default function Volume() {
         max="100"
         value={typeof volume === "undefined" ? fallback * 100 : volume}
         onInput={onVolumeChange}
-        percentage={typeof volume === "undefined" ? fallback * 100 : volume}
+        $percentage={typeof volume === "undefined" ? fallback * 100 : volume}
         aria-label="Volume Slider"
       />
     </div>

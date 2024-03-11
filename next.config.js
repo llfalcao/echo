@@ -1,11 +1,20 @@
 /** @type {import('next').NextConfig} */
+const path = require("path");
+
 const nextConfig = {
   reactStrictMode: true,
   compiler: {
     styledComponents: true,
   },
+  sassOptions: {
+    includePaths: [path.join(__dirname, "styles")],
+  },
   images: {
-    domains: ["i.imgur.com", "thumbs2.imgbox.com", "picsum.photos"],
+    remotePatterns: [
+      { hostname: "i.imgur.com" },
+      { hostname: "thumbs2.imgbox.com" },
+      { hostname: "picsum.photos" },
+    ],
   },
 };
 
