@@ -1,5 +1,7 @@
+"use client";
+
 import { usePlayerDispatch } from "@/context/Player";
-import PauseBtn from "@material-ui/icons/Pause";
+import PauseBtn from "@mui/icons-material/Pause";
 
 interface Props {
   classes?: string;

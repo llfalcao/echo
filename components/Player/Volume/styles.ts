@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 interface VolumeInputProps {
-  percentage: number | string;
+  $percentage: number | string;
 }
 
-export const VolumeInput = styled.input`
+export const VolumeInput = styled.input<VolumeInputProps>`
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -21,7 +21,7 @@ export const VolumeInput = styled.input`
     height: 5px;
     cursor: pointer;
     background: ${(props: VolumeInputProps) =>
-      `linear-gradient(to right, #5555df ${props.percentage}%, #7d7d7d ${props.percentage}%)`};
+      `linear-gradient(to right, #5555df ${props.$percentage}%, #7d7d7d ${props.$percentage}%)`};
     border-radius: 50px;
   }
 
@@ -29,7 +29,7 @@ export const VolumeInput = styled.input`
     height: 5px;
     cursor: pointer;
     background: ${(props: VolumeInputProps) =>
-      `linear-gradient(to right, #5555df ${props.percentage}%, #7d7d7d ${props.percentage}%)`};
+      `linear-gradient(to right, #5555df ${props.$percentage}%, #7d7d7d ${props.$percentage}%)`};
     border-radius: 50px;
   }
 

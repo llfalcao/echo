@@ -1,15 +1,20 @@
+"use client";
+
 import Pause from "@/components/Player/Pause";
 import Play from "@/components/Player/Play";
 import { usePlayer, usePlayerDispatch } from "@/context/Player";
 import { usePlaylists } from "@/hooks/usePlaylists";
-import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
-const Playlist: NextPage = () => {
-  const router = useRouter();
-  const id = router.query.id as string;
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+const Playlist = ({ params }: Props) => {
+  const { id } = params;
   const { playlists, isLoading, error } = usePlaylists([id as string]);
   const { current, playing } = usePlayer();
   const dispatch = usePlayerDispatch();

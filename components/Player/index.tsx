@@ -1,6 +1,7 @@
-import Image from "next/image";
+"use client";
 
 import { usePlayer, usePlayerDispatch } from "@/context/Player";
+import Image from "next/image";
 import { RefObject } from "react";
 import Next from "./Next";
 import Pause from "./Pause";
