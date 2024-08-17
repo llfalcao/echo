@@ -6,20 +6,6 @@ export const fetchTrack = async (yid: string) => {
   const url = `https://www.youtube.com/watch?v=${yid}`;
 
   try {
-    const { formats } = await ytdl.getInfo(url);
-    const format = ytdl.chooseFormat(formats, {
-      filter: "audioonly",
-      quality: "highestaudio",
-    });
-
-    return format?.url;
-  } catch (error) {
-    if (process.env.NODE_ENV === "development") {
-      console.error("# ytdl-core failed, attempting to use distube \n", error);
-    }
-  }
-
-  try {
     const { formats } = await distubeYtdl.getInfo(url);
     const format = distubeYtdl.chooseFormat(formats, {
       filter: "audioonly",
@@ -30,6 +16,20 @@ export const fetchTrack = async (yid: string) => {
   } catch (error) {
     if (process.env.NODE_ENV === "development") {
       console.error("# distube failed, attempting to use youtube-dl \n", error);
+    }
+  }
+
+  try {
+    const { formats } = await ytdl.getInfo(url);
+    const format = ytdl.chooseFormat(formats, {
+      filter: "audioonly",
+      quality: "highestaudio",
+    });
+
+    return format?.url;
+  } catch (error) {
+    if (process.env.NODE_ENV === "development") {
+      console.error("# ytdl-core failed, attempting to use distube \n", error);
     }
   }
 
