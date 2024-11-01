@@ -10,7 +10,7 @@
     "lint": "prettier --write . && next lint"
   },
   "dependencies": {
-    "@distube/ytdl-core": "^4.14.4",
+    "@distube/ytdl-core": "latest",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
@@ -26,8 +26,8 @@
     "react-dom": "^18.2.0",
     "sharp": "^0.33.2",
     "swr": "^2.2.5",
-    "youtube-dl-exec": "^3.0.7",
-    "ytdl-core": "^4.11.5"
+    "youtube-dl-exec": "latest",
+    "ytdl-core": "latest"
   },
   "devDependencies": {
     "@types/moment-duration-format": "^2.2.3",
